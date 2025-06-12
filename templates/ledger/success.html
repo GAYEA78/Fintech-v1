@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}Payment Successful{% endblock %}
+{% block title %}Payment Successful – Arona Fintech Bank{% endblock %}
 {% block content %}
-  <h2>Payment Successful!</h2>
-  <p>Your deposit has been credited.</p>
-  <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+
+<div class="success-hero">
+  <div class="success-box">
+    <i class="fa fa-check-circle fa-4x mb-3" aria-hidden="true" style="color: var(--arona-accent);"></i>
+    <h1>Payment Successful!</h1>
+    <p class="lead">Your deposit has been credited to your account.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}">Back to Dashboard</a>
+  </div>
+</div>
+
 {% endblock %}

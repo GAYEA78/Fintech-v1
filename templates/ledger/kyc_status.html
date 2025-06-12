@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}KYC Status – Arona Fintech Bank{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+  <div class="dashboard-box">
+    <h2>KYC Status</h2>
+    <ul class="list-group">
+      {% for doc in docs %}
+        <li class="list-group-item d-flex justify-content-between">
+          {{ doc.uploaded_at|date:"Y-m-d H:i" }}
+          <span class="badge bg-secondary">{{ doc.get_status_display }}</span>
+        </li>
+      {% empty %}
+        <li class="list-group-item">No documents uploaded yet.</li>
+      {% endfor %}
+    </ul>
+    <a class="btn btn-primary btn-lg mt-3" href="{% url 'kyc_upload' %}">Upload New Document</a>
+  </div>
+</div>
+{% endblock %}

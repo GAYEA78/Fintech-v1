@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Logged Out – Arona Fintech Bank{% endblock %}
+{% block content %}
+
+<div class="hero">
+  <div class="hero-box">
+    <h1>You’ve Been Logged Out</h1>
+    <p class="lead">Thanks for using Arona Fintech Bank, see you soon.</p>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Log In</a>
+      <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Home</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

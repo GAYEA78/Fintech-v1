@@ -1,36 +1,69 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Dashboard – Arona Fintech Bank{% endblock %}
 {% block content %}
-<div class="card shadow-sm">
-  <div class="card-body">
-    <h2 class="card-title">Hello, {{ user.username }}</h2>
-    <p class="card-text"><strong>Balance:</strong> ${{ account.balance }}</p>
-    <a class="btn btn-primary mb-3" href="{% url 'create_checkout_session' %}">Deposit $10</a>
-    <h3>Recent Transactions</h3>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead class="table-dark">
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for tx in transactions %}
-          <tr>
-            <td>{{ tx.timestamp|date:"Y-m-d H:i" }}</td>
-            <td>{{ tx.get_transaction_type_display }}</td>
-            <td>${{ tx.amount }}</td>
-            <td>{{ tx.description }}</td>
-          </tr>
-          {% empty %}
-          <tr><td colspan="4">No transactions yet.</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
+
+<div class="dashboard-container">
+
+<div class="dashboard-nav-box">
+  <a href="{% url 'home' %}" class="dashboard-btn">Home</a>
+  <a href="{% url 'pdf_statement' %}" class="dashboard-btn">Download Statement</a>
+  <a href="{% url 'logout' %}" class="dashboard-btn">Logout</a>
+</div>
+
+
+  <div class="dashboard-box">
+    <h2>Welcome, {{ user.username }}</h2>
+
+    <div class="dashboard-balance mb-4">
+      <strong>Balance:</strong> ${{ account.balance }}
+    </div>
+
+    <div class="dashboard-actions justify-content-center">
+      <form method="post" action="{% url 'create_checkout_session' %}">
+        {% csrf_token %}
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input
+            type="number"
+            name="amount"
+            class="form-control"
+            placeholder="Amount"
+            min="1"
+            step="0.01"
+            required
+          />
+          <button class="btn btn-primary" type="submit">Deposit</button>
+        </div>
+      </form>
     </div>
   </div>
+
+  <div class="dashboard-table">
+    <h3 class="text-center mb-3">Recent Transactions</h3>
+    <table class="table table-borderless table-striped mb-0">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tx in transactions %}
+        <tr>
+          <td>{{ tx.timestamp|date:"Y-m-d H:i" }}</td>
+          <td>{{ tx.get_transaction_type_display }}</td>
+          <td>${{ tx.amount }}</td>
+          <td>{{ tx.description }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No transactions yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
 </div>
+
 {% endblock %}
