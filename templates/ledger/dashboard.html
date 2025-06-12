@@ -1,23 +1,36 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-  <h2>Welcome, {{ user.username }}</h2>
-  <p><strong>Balance: ${{ account.balance }}</strong></p>
-  <a class="btn btn-success mb-3" href="{% url 'create_checkout_session' %}">Deposit $10</a>
-  <h3>Recent Transactions</h3>
-  <table class="table">
-    <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Description</th></tr></thead>
-    <tbody>
-      {% for tx in transactions %}
-      <tr>
-        <td>{{ tx.timestamp|date:"Y-m-d H:i" }}</td>
-        <td>{{ tx.get_transaction_type_display }}</td>
-        <td>${{ tx.amount }}</td>
-        <td>{{ tx.description }}</td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="4">No transactions yet.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title">Hello, {{ user.username }}</h2>
+    <p class="card-text"><strong>Balance:</strong> ${{ account.balance }}</p>
+    <a class="btn btn-primary mb-3" href="{% url 'create_checkout_session' %}">Deposit $10</a>
+    <h3>Recent Transactions</h3>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tx in transactions %}
+          <tr>
+            <td>{{ tx.timestamp|date:"Y-m-d H:i" }}</td>
+            <td>{{ tx.get_transaction_type_display }}</td>
+            <td>${{ tx.amount }}</td>
+            <td>{{ tx.description }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4">No transactions yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock %}

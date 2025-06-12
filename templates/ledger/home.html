@@ -1,17 +1,58 @@
 {% extends 'base.html' %}
-{% block title %}Welcome to BankingApp{% endblock %}
+{% block title %}Welcome to Arona Bank{% endblock %}
 {% block content %}
-<div class="p-5 mb-4 bg-light rounded-3 text-center">
-  <div class="container py-5">
-    <h1 class="display-4">Secure, Simple Banking</h1>
-    <p class="lead">Manage your money, view statements, and make deposits—all in one place.</p>
-    <hr class="my-4">
-    {% if user.is_authenticated %}
-      <a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}" role="button">Go to Dashboard</a>
-    {% else %}
-      <a class="btn btn-primary btn-lg me-2" href="{% url 'signup' %}" role="button">Sign Up</a>
-      <a class="btn btn-outline-secondary btn-lg" href="{% url 'login' %}" role="button">Log In</a>
-    {% endif %}
-  </div>
+
+<div class="hero">
+  <h1>Arona Bank</h1>
+  <p class="lead">Your trust, our commitment.</p>
+  {% if user.is_authenticated %}
+    <a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}">Dashboard</a>
+  {% else %}
+    <a class="btn btn-primary btn-lg me-2" href="{% url 'signup' %}">Get Started</a>
+    <a class="btn btn-outline-light btn-lg" href="{% url 'login' %}">Sign In</a>
+  {% endif %}
 </div>
+
+<div class="tabs">
+  <button data-tab="about">About Us</button>
+  <button data-tab="services">Services</button>
+  <button data-tab="why">Why Arona?</button>
+  <button data-tab="contact">Contact</button>
+</div>
+
+<section id="about" class="tab-content">
+  <h2>About Us</h2>
+  <p>At Arona Bank, we deliver secure, intuitive digital banking that puts you in control.</p>
+</section>
+
+<section id="services" class="tab-content">
+  <h2>Our Services</h2>
+  <ul>
+    <li>Real-time balance tracking</li>
+    <li>Instant PDF statements</li>
+    <li>Seamless card deposits</li>
+    <li>24/7 support</li>
+  </ul>
+</section>
+
+<section id="why" class="tab-content">
+  <h2>Why Arona?</h2>
+  <ul>
+    <li>Banking built on transparency</li>
+    <li>Advanced security</li>
+    <li>User-first design</li>
+  </ul>
+</section>
+
+<section id="contact" class="tab-content">
+  <h2>Contact</h2>
+  <p>Email: <a href="mailto:support@aronabank.com">support@aronabank.com</a></p>
+  <p>Phone: 860-123-4567</p>
+</section>
+
+<footer>
+  <p>© 2025 Arona Bank. Empowering your future.</p>
+  <button id="darkToggle">Toggle Glow Mode</button>
+</footer>
+
 {% endblock %}

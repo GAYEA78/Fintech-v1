@@ -1,0 +1,121 @@
+/* static/css/styles.css */
+
+:root {
+  --arona-primary: #4A90E2;
+  --arona-secondary: #50E3C2;
+  --arona-accent: #F5A623;
+  --arona-dark: #1A1A1A;
+  --arona-light: #F9F9F9;
+}
+
+body {
+  background-color: var(--arona-light);
+  color: var(--arona-dark);
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background-color: var(--arona-primary) !important;
+}
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: white !important;
+  font-weight: 600;
+}
+.navbar .nav-link:hover {
+  color: var(--arona-accent) !important;
+}
+
+.btn-primary {
+  background-color: var(--arona-secondary);
+  border-color: var(--arona-secondary);
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background-color: var(--arona-accent);
+  border-color: var(--arona-accent);
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--arona-primary), var(--arona-secondary));
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.hero p.lead {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  gap: 1rem;
+}
+.tabs button {
+  background: none;
+  border: 2px solid var(--arona-primary);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+.tabs button.active {
+  background-color: var(--arona-primary);
+  color: white;
+}
+.tabs button:hover {
+  background-color: var(--arona-primary);
+  color: white;
+}
+
+.tab-content {
+  display: none;
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+.tab-content.active {
+  display: block;
+}
+
+footer {
+  background-color: var(--arona-dark);
+  color: var(--arona-light);
+  text-align: center;
+  padding: 1rem;
+}
+
+#darkToggle {
+  background-color: var(--arona-secondary);
+  border: none;
+  padding: 0.5rem 1rem;
+  color: white;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.glow body {
+  background-color: var(--arona-dark) !important;
+  color: var(--arona-light) !important;
+}
+.glow .navbar {
+  background-color: var(--arona-accent) !important;
+}
+.glow .btn-primary {
+  background-color: var(--arona-primary) !important;
+  border-color: var(--arona-primary) !important;
+}
+.glow .hero {
+  background: linear-gradient(135deg, var(--arona-accent), var(--arona-primary)) !important;
+}
