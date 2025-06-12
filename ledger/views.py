@@ -10,6 +10,10 @@ from django.conf import settings
 from reportlab.pdfgen import canvas
 from .models import Account, Transaction
 
+def home(request):
+    return render(request, 'ledger/home.html')
+
+
 stripe.api_key = settings.STRIPE_API_KEY
 
 def signup(request):
