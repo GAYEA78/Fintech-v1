@@ -16,7 +16,11 @@
       <a href="{% url 'inbox' %}" class="dashboard-btn">📥 Chat with Admins!</a>
       <a href="{% url 'kyc_upload' %}" class="dashboard-btn">📁 Upload KYC Docs</a>
 
-      <a href="{% url 'logout' %}" class="dashboard-btn">🔓 Logout</a>
+<form action="{% url 'logout' %}" method="post" style="display: inline;">
+  {% csrf_token %}
+  <button type="submit" class="dashboard-btn">🔓 Logout</button>
+</form>
+
     </div>
   </div>
 
