@@ -914,71 +914,8 @@ def disable_auto_rebalance(request):
     return redirect('portfolio_list')
 
 
-@login_required
-def manual_rebalance(request):
-    account = Account.objects.get(user=request.user)
-    profile = RiskProfile.objects.filter(user=request.user).last()
 
-    if not profile:
-        messages.error(request, "You must complete your risk profile first.")
-        return redirect('dashboard')
 
-    portfolio = ModelPortfolio.objects.filter(name__icontains=profile.investor_type).first()
-    if not portfolio:
-        messages.error(request, "No matching model portfolio found.")
-        return redirect('dashboard')
-
-    paired_allocation = []
-    total_value = Decimal('0')
-    current_alloc = {}
-
-    for line in portfolio.lines.all():
-        nav = fetch_nav(line.asset)
-        if nav:
-            invested_amt = (line.target_pct / Decimal('100')) * account.balance
-            shares = invested_amt / Decimal(nav)
-            current_val = shares * Decimal(nav)
-            current_alloc[line.asset] = round((current_val / account.balance) * 100, 2)
-            total_value += current_val
-
-    for line in portfolio.lines.all():
-        paired_allocation.append((
-            line,  
-            type('Obj', (), {'actual_pct': current_alloc.get(line.asset, 0)})  
-        ))
-
-    return render(request, 'ledger/manual_rebalance.html', {
-        'paired_allocation': paired_allocation
-    })
-
-@require_POST
-@login_required
-def apply_manual_rebalance(request):
-    account = Account.objects.get(user=request.user)
-    profile = RiskProfile.objects.filter(user=request.user).last()
-
-    if not profile:
-        messages.error(request, "You must complete your risk profile first.")
-        return redirect('dashboard')
-
-    portfolio = ModelPortfolio.objects.filter(name__icontains=profile.investor_type).first()
-    if not portfolio:
-        messages.error(request, "No matching portfolio found.")
-        return redirect('dashboard')
-
-    for line in portfolio.lines.all():
-        key = f"target_{line.asset}"
-        value = request.POST.get(key)
-        try:
-            if value:
-                value = value.replace(',', '.')  
-                line.target_pct = round(Decimal(value), 2)
-                line.save()
-        except (ValueError, InvalidOperation):
-            messages.error(request, f"Invalid input for {line.asset}")
-
-    messages.success(request, "Manual changes applied to your target allocations.")
-    return redirect('dashboard')
 
 
 
