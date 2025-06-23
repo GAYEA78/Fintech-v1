@@ -11,10 +11,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', ledger_views.login_2fa, name='login'),
     path('accounts/verify/', ledger_views.otp_verify, name='otp_verify'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(
-        template_name='registration/logged_out.html'),
-        name='logout'
-    ),
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('ledger.urls')),
 ]
