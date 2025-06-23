@@ -41,5 +41,9 @@ urlpatterns = [
     # Auto rebalance
     path('rebalance/auto/', views.enable_auto_rebalance, name='enable_auto_rebalance'),
 
+    # Rebalancing
+    path('rebalance/manual/', views.manual_rebalance, name='manual_rebalance'),
+    path('rebalance/manual/apply/', views.apply_manual_rebalance, name='apply_manual_rebalance'),
+
  
 ]
