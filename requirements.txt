@@ -12,7 +12,6 @@ et_xmlfile==2.0.0
 gitdb==4.0.12
 GitPython==3.1.44
 google-generativeai>=0.3.1
-gunicorn
 idna==3.10
 indic-transliteration==2.3.69
 Jinja2==3.1.6
@@ -26,7 +25,7 @@ numpy==2.2.6
 openpyxl==3.1.5
 packaging==24.2
 pandas==2.3.0
-Pillow==11.2.1
+pillow==11.2.1
 protobuf==6.31.1
 pyarrow==20.0.0
 pydeck==0.9.1
@@ -36,13 +35,14 @@ python-dotenv
 pytz==2025.2
 referencing==0.36.2
 regex==2024.11.6
+reportlab
 requests==2.32.4
 rich==14.0.0
 roman==5.0
 rpds-py==0.25.1
 shellingham==1.5.4
-six==1.17.0
 sib-api-v3-sdk
+six==1.17.0
 smmap==5.0.2
 streamlit==1.45.1
 stripe
@@ -55,4 +55,5 @@ tzdata==2025.2
 urllib3==2.4.0
 watchdog==6.0.0
 whitenoise
-python-dotenv
+yfinance
+gunicorn
