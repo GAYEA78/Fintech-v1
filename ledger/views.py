@@ -914,7 +914,42 @@ def disable_auto_rebalance(request):
     return redirect('portfolio_list')
 
 
+@login_required
+def manual_rebalance(request):
+    account = Account.objects.get(user=request.user)
+    profile = RiskProfile.objects.filter(user=request.user).last()
 
+    if not profile:
+        messages.error(request, "You must complete your risk profile first.")
+        return redirect('dashboard')
+
+    portfolio = ModelPortfolio.objects.filter(name__icontains=profile.investor_type).first()
+    if not portfolio:
+        messages.error(request, "No matching model portfolio found.")
+        return redirect('dashboard')
+
+    paired_allocation = []
+    total_value = Decimal('0')
+    current_alloc = {}
+
+    for line in portfolio.lines.all():
+        nav = fetch_nav(line.asset)
+        if nav:
+            invested_amt = (line.target_pct / Decimal('100')) * account.balance
+            shares = invested_amt / Decimal(nav)
+            current_val = shares * Decimal(nav)
+            current_alloc[line.asset] = round((current_val / account.balance) * 100, 2)
+            total_value += current_val
+
+    for line in portfolio.lines.all():
+        paired_allocation.append((
+            line,  # target
+            type('Obj', (), {'actual_pct': current_alloc.get(line.asset, 0)})  # current
+        ))
+
+    return render(request, 'ledger/manual_rebalance.html', {
+        'paired_allocation': paired_allocation
+    })
 
 
 
