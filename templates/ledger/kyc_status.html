@@ -2,8 +2,16 @@
 {% block title %}KYC Status – Arona Fintech Bank{% endblock %}
 {% block content %}
 <div class="dashboard-container">
+
+  <div class="dashboard-box nav-mini mb-4 mx-auto">
+    <div class="dashboard-nav-box">
+      <a href="{% url 'dashboard' %}" class="dashboard-btn">⬅ Back to Dashboard</a>
+    </div>
+  </div>
+
   <div class="dashboard-box">
     <h2>KYC Status</h2>
+
     <ul class="list-group">
       {% for doc in docs %}
         <li class="list-group-item d-flex justify-content-between">
@@ -14,7 +22,20 @@
         <li class="list-group-item">No documents uploaded yet.</li>
       {% endfor %}
     </ul>
-    <a class="btn btn-primary btn-lg mt-3" href="{% url 'kyc_upload' %}">Upload New Document</a>
+
+    {% if docs %}
+      {% with latest=docs.0 %}
+        {% if latest.status == 'R' %}
+          <a class="btn btn-primary btn-lg mt-3" href="{% url 'kyc_upload' %}">Upload New Document</a>
+        {% elif latest.status == 'P' %}
+          <div class="alert alert-info mt-3">⏳ Your document is still pending review.</div>
+        {% elif latest.status == 'A' %}
+          <div class="alert alert-success mt-3">✅ Your KYC has been approved.</div>
+        {% endif %}
+      {% endwith %}
+    {% else %}
+      <a class="btn btn-primary btn-lg mt-3" href="{% url 'kyc_upload' %}">Upload New Document</a>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

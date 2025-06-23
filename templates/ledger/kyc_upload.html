@@ -1,17 +1,29 @@
 {% extends 'base.html' %}
-{% block title %}KYC Upload – Arona Fintech Bank{% endblock %}
+{% block title %}Upload KYC – Arona Fintech Bank{% endblock %}
 {% block content %}
-<div class="hero">
-  <div class="hero-box" style="max-width:500px; margin:0 auto;">
-    <h1>KYC Document Upload</h1>
-    <p class="lead">Upload a valid ID to verify your account.</p>
-    <form method="post" enctype="multipart/form-data" class="mt-4">
-      {% csrf_token %}
-      {{ form.document }}
-      {% for error in form.document.errors %}
-        <div class="text-danger">{{ error }}</div>
+<div class="dashboard-container">
+
+  <div class="dashboard-box nav-mini mb-4 mx-auto">
+    <div class="dashboard-nav-box">
+      <a href="{% url 'dashboard' %}" class="dashboard-btn">⬅ Back to Dashboard</a>
+    </div>
+  </div>
+
+  <div class="dashboard-box">
+    <h2>📤 Upload KYC Document</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
       {% endfor %}
-      <button class="btn btn-primary btn-lg w-100 mt-3" type="submit">Upload</button>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Upload Document</button>
     </form>
   </div>
 </div>

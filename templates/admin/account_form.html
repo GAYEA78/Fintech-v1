@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Edit Account – Admin{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+  <h2 class="mb-4">Adjust Balance for {{ account.user.username }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.balance.label_tag }}
+      {{ form.balance }}
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'account_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,69 +1,320 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 {% block title %}Dashboard – Arona Fintech Bank{% endblock %}
-{% block content %}
 
+{% block content %}
 <div class="dashboard-container">
 
-<div class="dashboard-nav-box">
-  <a href="{% url 'home' %}" class="dashboard-btn">Home</a>
-  <a href="{% url 'pdf_statement' %}" class="dashboard-btn">Download Statement</a>
-  <a href="{% url 'logout' %}" class="dashboard-btn">Logout</a>
-</div>
+  <!-- Navigation bar -->
+  <div class="dashboard-box nav-mini mb-4 mx-auto">
+    <div class="dashboard-nav-box">
+      <a href="{% url 'home' %}" class="dashboard-btn">🏠 Home</a>
+      <a href="{% url 'pdf_statement' %}" class="dashboard-btn">📄 Download Statement</a>
+      <a href="{% url 'risk_profile' %}" class="dashboard-btn">👤 Investor Profile</a>
+      <a href="{% url 'portfolio_list' %}" class="dashboard-btn">📊 Model Portfolios</a>
+      <a href="#" id="darkToggle" class="dashboard-btn"><i class="fas fa-moon"></i> Dark Mode</a>
+      <a href="{% url 'inbox' %}" class="dashboard-btn">📥 Chat with Admins!</a>
+      <a href="{% url 'kyc_upload' %}" class="dashboard-btn">📁 Upload KYC Docs</a>
 
-
-  <div class="dashboard-box">
-    <h2>Welcome, {{ user.username }}</h2>
-
-    <div class="dashboard-balance mb-4">
-      <strong>Balance:</strong> ${{ account.balance }}
+      <a href="{% url 'logout' %}" class="dashboard-btn">🔓 Logout</a>
     </div>
+  </div>
 
-    <div class="dashboard-actions justify-content-center">
-      <form method="post" action="{% url 'create_checkout_session' %}">
-        {% csrf_token %}
-        <div class="input-group">
-          <span class="input-group-text">$</span>
-          <input
-            type="number"
-            name="amount"
-            class="form-control"
-            placeholder="Amount"
-            min="1"
-            step="0.01"
-            required
-          />
-          <button class="btn btn-primary" type="submit">Deposit</button>
+  <div style="display: flex; align-items: flex-start; gap: 2rem; flex-wrap: wrap;">
+
+    <!-- Welcome and Deposit section -->
+    <div style="flex: 2 1 0; min-width: 300px;">
+      <div class="dashboard-box mb-4">
+        <h2>🏦 Welcome, {{ user.first_name }}</h2>
+        <div class="dashboard-balance mb-4"><strong>Balance:</strong> ${{ account.balance }}</div>
+
+        <!-- Deposit form -->
+        <div class="dashboard-actions">
+          <form method="post" action="{% url 'create_checkout_session' %}">
+            {% csrf_token %}
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input type="number" name="amount" class="form-control" placeholder="Amount" min="1" step="0.01" required>
+              <button class="btn btn-primary input-group-text" style="background-color: #0d6efd; color: white; border: 1px solid #0d6efd;" type="submit">
+                Deposit
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
+
+      <!-- Transactions section -->
+      <div class="dashboard-box transactions-box mb-4">
+        <h3 class="text-center mb-3">Recent Transactions 🧾</h3>
+        <div class="dashboard-table mb-4">
+          <table class="table table-borderless table-striped">
+            <thead>
+              <tr><th>Date</th><th>Type</th><th>Amount</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              {% for tx in transactions %}
+              <tr>
+                <td>{{ tx.timestamp|date:"Y-m-d H:i" }}</td>
+                <td>{{ tx.get_transaction_type_display }}</td>
+                <td>${{ tx.amount }}</td>
+                <td>{{ tx.description }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4">No transactions yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="text-center" style="margin-top: 2rem;">
+            <a href="{% url 'transactions' %}" class="btn btn-primary">View All Transactions</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live stock prices -->
+      <div class="dashboard-box p-3" style="font-size: 1rem;">
+        <h4 class="text-center mb-3" style="font-size: 1.25rem;">📈 Live Stock Prices</h4>
+        <ul class="list-group mb-3">
+          {% for stock in stock_data %}
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>{{ stock.symbol }}</strong>
+            <span>${{ stock.price }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <!-- Stock search -->
+        <form method="get" action="{% url 'dashboard' %}">
+          <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search ticker (e.g., AAPL)" required>
+            <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+        </form>
+
+        {% if search_result %}
+          {% if search_result.error %}
+          <div class="alert alert-danger mt-2">{{ search_result.error }}</div>
+          {% else %}
+          <div class="alert alert-success mt-2">
+            <strong>{{ search_result.symbol }}</strong> = ${{ search_result.price }}
+          </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Simulated trading -->
+    <div style="flex: 1 1 0; min-width: 300px; max-width: 400px;">
+      <div class="dashboard-box mb-4">
+        <h2 style="font-size: 20px; font-weight: 100;">📊 Simulated Trading</h2>
+        <form method="post" action="{% url 'trade' %}">
+          {% csrf_token %}
+          {{ trade_form.as_p }}
+          <button type="submit" class="btn btn-primary w-100">Execute Trade</button>
+        </form>
+      </div>
+
+      <!-- Portfolio chart -->
+      {% if holdings %}
+      <div class="dashboard-box mb-4">
+        <h3 class="text-center">📈 Your Portfolio</h3>
+        <canvas id="portfolioChart" style="max-height: 300px;"></canvas>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Rebalance alert -->
+    {% if rebalance_alert %}
+    <div style="flex: 1 1 0; min-width: 250px;">
+      <div class="dashboard-box alert alert-warning text-center p-4">
+        <h4 class="text-center mb-3" style="font-size: 1.25rem;">🚨 <strong>Rebalance Suggested</strong></h4>
+        <p>Your <strong>{{ rebalance_alert.portfolio }}</strong> portfolio has drifted by <strong>{{ rebalance_alert.drift }}%</strong>.</p>
+        <form method="post" action="{% url 'enable_auto_rebalance' %}" class="mb-2">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary w-100">Enable Auto-Rebalancing</button>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Investor profile and analytics -->
+    <div style="flex: 1 1 0; min-width: 250px;">
+      {% if risk_profile %}
+        {% if account.balance > 0 %}
+        <div class="dashboard-box">
+          <h4 class="text-center mb-3" style="font-size: 1.25rem;">📊 <strong>Investor Profile</strong></h4>
+          <p><strong>{{ risk_profile.investor_type }}</strong></p>
+          <p class="mb-3">{{ recommendations.description }}</p>
+
+          <!-- Allocation -->
+          <h5>Asset Allocation</h5>
+          <ul class="list-unstyled mb-3">
+            {% for klass, alloc in recommendations.allocation.items %}
+            <li>{{ klass }}: {{ alloc }}</li>
+            {% endfor %}
+          </ul>
+
+          <!-- Products -->
+          <h5>Suggested Products</h5>
+          <ul class="list-group list-group-flush mb-3">
+            {% for product in recommendations.products %}
+            <li class="list-group-item">{{ product }}</li>
+            {% endfor %}
+          </ul>
+
+          <form method="get" action="{% url 'manual_rebalance' %}" class="text-center">
+            <button type="submit" class="btn btn-primary w-100 mt-2">Rebalance Manually</button>
+          </form>
+        </div>
+
+        <!-- Gains/Losses -->
+        {% if gains %}
+        <div class="dashboard-box mb-4">
+          <h3 class="text-center">📉 Gains / Losses</h3>
+          <table class="table table-sm table-striped text-center">
+            <thead><tr><th>Ticker</th><th>Gain / Loss</th></tr></thead>
+            <tbody>
+              {% for g in gains %}
+              <tr>
+                <td>{{ g.ticker }}</td>
+                <td>
+                  {% if g.gain > 0 %}
+                  <span style="color: green;">+${{ g.gain }}</span>
+                  {% elif g.gain < 0 %}
+                  <span style="color: red;">-${{ g.gain|absolute }}</span>
+                  {% else %}
+                  $0.00
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+
+        <!-- Price history chart -->
+        <div class="dashboard-box mb-4">
+          <h3 class="text-center">⛰️ Asset Prices Over Time</h3>
+          <ul class="text-center list-unstyled mb-3 small">
+            {% for asset in asset_chart_data %}
+            <li class="text-muted"><strong>{{ asset.ticker }}</strong> — {{ asset.quantity|floatformat:2 }} shares @ ${{ asset.nav|floatformat:2 }} = ${{ asset.value|floatformat:2 }}</li>
+            {% empty %}
+            <li class="text-muted">You don’t currently hold any assets.</li>
+            {% endfor %}
+          </ul>
+          <canvas id="priceChart" height="300"></canvas>
+        </div>
+
+        {% else %}
+        <div class="dashboard-box text-center">
+          <p>Please deposit some funds using the deposit box to see your asset allocation and recommendations.</p>
+        </div>
+        {% endif %}
+      {% else %}
+      <div class="dashboard-box text-center">
+        <p>You haven’t completed your Investor Profile yet.</p>
+        <a href="{% url 'risk_profile' %}" class="btn btn-primary btn-sm mt-3">Take Questionnaire</a>
+      </div>
+      {% endif %}
     </div>
   </div>
-
-  <div class="dashboard-table">
-    <h3 class="text-center mb-3">Recent Transactions</h3>
-    <table class="table table-borderless table-striped mb-0">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Amount</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for tx in transactions %}
-        <tr>
-          <td>{{ tx.timestamp|date:"Y-m-d H:i" }}</td>
-          <td>{{ tx.get_transaction_type_display }}</td>
-          <td>${{ tx.amount }}</td>
-          <td>{{ tx.description }}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="4">No transactions yet.</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
 </div>
 
+<!-- Chart.js scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Portfolio Chart -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const portfolioCtx = document.getElementById('portfolioChart');
+  if (portfolioCtx) {
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    new Chart(portfolioCtx, {
+      type: 'doughnut',
+      data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+          data: {{ data|safe }},
+          backgroundColor: ['#007bff', '#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6610f2', '#e83e8c', '#6f42c1', '#20c997', '#fd7e14'],
+          borderColor: isDarkMode ? '#1a1a1a' : '#ffffff',
+          borderWidth: 2,
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        cutout: '65%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: isDarkMode ? '#ffffff' : '#000000' }
+          },
+          tooltip: {
+            backgroundColor: isDarkMode ? '#333' : '#fff',
+            titleColor: isDarkMode ? '#fff' : '#000',
+            bodyColor: isDarkMode ? '#fff' : '#000'
+          }
+        }
+      }
+    });
+  }
+});
+</script>
+
+<!-- Price History Chart -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const ctx = document.getElementById('priceChart');
+  if (ctx) {
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ price_history_data.labels|safe }},
+        datasets: [
+          {% for set in price_history_data.datasets %}
+          {
+            label: '{{ set.label }}',
+            data: {{ set.data|safe }},
+            fill: true,
+            tension: 0.4,
+            borderColor: '#36A2EB',
+            backgroundColor: 'rgba(54,162,235,0.2)',
+            pointRadius: 3,
+            pointBackgroundColor: isDarkMode ? '#fff' : '#000',
+            pointBorderColor: '#36A2EB',
+            pointBorderWidth: 2
+          }{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: { color: isDarkMode ? '#fff' : '#000' }
+          },
+          tooltip: {
+            backgroundColor: isDarkMode ? '#333' : '#fff',
+            titleColor: isDarkMode ? '#fff' : '#000',
+            bodyColor: isDarkMode ? '#fff' : '#000'
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: isDarkMode ? '#fff' : '#000' },
+            title: { display: true, text: 'Date', color: isDarkMode ? '#fff' : '#000' },
+            grid: { color: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
+          },
+          y: {
+            ticks: { color: isDarkMode ? '#fff' : '#000' },
+            title: { display: true, text: 'Price ($)', color: isDarkMode ? '#fff' : '#000' },
+            grid: { color: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
+          }
+        }
+      }
+    });
+  }
+});
+</script>
 {% endblock %}

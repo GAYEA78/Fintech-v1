@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Your Investor Type – Arona Fintech Bank{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+  <div class="dashboard-box text-center mx-auto my-5" style="max-width: 800px;">
+    <h2 class="mb-4">Your Investor Type</h2>
+    <p class="display-5 text-uppercase mb-4">{{ profile.investor_type }}</p>
+    <p class="lead mb-4">{{ recommendations.description }}</p>
+
+    <h3 class="mt-4 mb-3">Recommended Asset Allocation</h3>
+    <table class="table table-bordered w-50 mx-auto mb-4">
+      <thead>
+        <tr><th>Asset Class</th><th>Allocation</th></tr>
+      </thead>
+      <tbody>
+        {% for klass, alloc in recommendations.allocation.items %}
+        <tr><td>{{ klass }}</td><td>{{ alloc }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3 class="mb-3">Suggested Products</h3>
+    <ul class="list-group w-50 mx-auto mb-4">
+      {% for product in recommendations.products %}
+      <li class="list-group-item">{{ product }}</li>
+      {% endfor %}
+    </ul>
+
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+      Back to Dashboard
+    </a>
+  </div>
+</div>
+{% endblock %}

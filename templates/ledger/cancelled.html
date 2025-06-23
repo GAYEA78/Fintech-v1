@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}Payment Cancelled{% endblock %}
 {% block content %}
-  <h2>Payment Cancelled</h2>
-  <p>No charges were made.</p>
-  <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+
+<div class="dashboard-container d-flex justify-content-center align-items-center" style="height:100%;">
+  <div class="dashboard-box text-center" style="max-width: 700px; width: 80%; padding: 3rem;">
+    <h2>Payment Cancelled</h2>
+    <p>No charges were made.</p>
+    <a class="btn btn-primary btn-lg mt-3" href="{% url 'dashboard' %}">
+      Back to Dashboard
+    </a>
+  </div>
+</div>
+
 {% endblock %}

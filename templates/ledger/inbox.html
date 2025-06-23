@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Inbox{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+<div class="dashboard-box nav-mini mb-4 mx-auto">
+  <div class="dashboard-nav-box">
+    <a href="{% url 'dashboard' %}" class="dashboard-btn">⬅ Back to Dashboard</a>
+  </div>
+</div>
+  <div class="dashboard-box mb-4">
+    <h2>📩 Message Support</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label>Message:</label>
+        <textarea name="content" class="form-control" required rows="3"></textarea>
+      </div>
+      <button class="btn btn-primary w-100">Send Message</button>
+    </form>
+  </div>
+
+  <div class="dashboard-box">
+    <h3>💬 Your Conversations</h3>
+    {% for convo in grouped_conversations %}
+      <div class="mb-4 p-3 border rounded shadow-sm bg-light">
+        <h5>🛡️ {{ convo.admin.username }}</h5>
+        <ul class="list-group mt-2">
+          {% for msg in convo.messages %}
+            <li class="list-group-item {% if msg.sender == request.user %}list-group-item-success{% else %}list-group-item-secondary{% endif %}">
+              <strong>
+                {% if msg.sender == request.user %}You{% else %}Admin{% endif %}
+              </strong>: {{ msg.content }}<br>
+              <small class="text-muted">{{ msg.timestamp|date:"Y-m-d H:i" }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% empty %}
+      <p>No messages yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

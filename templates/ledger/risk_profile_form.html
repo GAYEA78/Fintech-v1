@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load form_tags %}
+
+{% block title %}Investor Questionnaire – Arona FinTech Bank{% endblock %}
+
+{% block content %}
+<style>
+  .full-height-center {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 15px 30px;
+    position: relative;
+  }
+
+  .form-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    background-color: #f0f8ff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .form-label {
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 1.1rem;
+    padding: 10px;
+  }
+
+  .btn-submit {
+    font-size: 1.2rem;
+    padding: 12px;
+    margin-top: 1.5rem;
+  }
+
+  .back-btn-top {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+  }
+</style>
+
+<div class="full-height-center">
+  <div class="dashboard-box w-100" style="max-width: 700px; position: relative;">
+    <div class="back-btn-top">
+      <a href="{% url 'dashboard' %}" class="btn btn-primary text-decoration-none">← Back to Dashboard</a>
+
+    </div>
+
+    <h2 class="text-center mb-4">Investor Profile Questionnaire</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="form-section-title">Experience</div>
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.experience.id_for_label }}">{{ form.experience.label }}</label>
+        {{ form.experience|add_class:"form-select" }}
+      </div>
+
+      <div class="form-section-title">Goals</div>
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.goals.id_for_label }}">{{ form.goals.label }}</label>
+        {{ form.goals|add_class:"form-select" }}
+      </div>
+
+      <div class="form-section-title">Time Horizon</div>
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.time_horizon.id_for_label }}">Years you plan to invest</label>
+        {{ form.time_horizon|add_class:"form-control" }}
+      </div>
+
+      <div class="form-section-title">Risk Tolerance</div>
+      <div class="mb-3">
+        <label class="form-label" for="{{ form.risk_tolerance.id_for_label }}">{{ form.risk_tolerance.label }}</label>
+        {{ form.risk_tolerance|add_class:"form-select" }}
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary w-100 btn-submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

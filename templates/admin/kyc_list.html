@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Manage KYC – Admin{% endblock %}
+{% block content %}
+<div class="dashboard-nav-box mb-4">
+  <a href="{% url 'admin_dashboard' %}" class="dashboard-btn">Back to Overview</a>
+</div>
+<div class="dashboard-container">
+  <h2 class="text-center mb-4">KYC Documents</h2>
+  <div class="dashboard-table">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Uploaded</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for doc in docs %}
+        <tr>
+          <td>{{ doc.user.username }}</td>
+          <td>{{ doc.uploaded_at|date:"Y-m-d H:i" }}</td>
+          <td>{{ doc.get_status_display }}</td>
+          <td>
+            <a class="btn btn-sm btn-primary"
+               href="{% url 'kyc_edit' doc.pk %}">Edit</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No documents.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

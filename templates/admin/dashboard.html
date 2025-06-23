@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard – Arona Fintech Bank{% endblock %}
+{% block content %}
+
+<div class="dashboard-container">
+
+  <h2 class="text-center mb-4">Admin Dashboard</h2>
+
+  <div class="dashboard-nav-box mb-4">
+    <a href="{% url 'user_list' %}"        class="dashboard-btn">Manage Users</a>
+    <a href="{% url 'kyc_list' %}"         class="dashboard-btn">Manage KYC</a>
+    <a href="{% url 'account_list' %}"     class="dashboard-btn">Manage Accounts</a>
+    <a href="{% url 'admin_dashboard' %}"  class="dashboard-btn">Summary</a>
+    <a href="{% url 'admin_inbox' %}" class="dashboard-btn">📥 User Messages</a>
+
+
+
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+    <div class="col">
+      <div class="dashboard-box">
+        <h3>Total Users</h3>
+        <p class="display-6">{{ total_users }}</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="dashboard-box">
+        <h3>Accounts</h3>
+        <p class="display-6">{{ accounts_count }}</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="dashboard-box">
+        <h3>Transactions</h3>
+        <p class="display-6">{{ transactions_count }}</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="dashboard-box">
+        <h3>Pending KYC</h3>
+        <p class="display-6">{{ pending_kyc_count }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-table">
+    <h3 class="text-center mb-3">Recent Transactions</h3>
+    <table class="table table-borderless table-striped mb-0">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Account</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tx in recent_transactions %}
+        <tr>
+          <td>{{ tx.account.user.username }}</td>
+          <td>{{ tx.account.id }}</td>
+          <td>{{ tx.get_transaction_type_display }}</td>
+          <td>${{ tx.amount }}</td>
+          <td>{{ tx.timestamp|date:"Y-m-d H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No recent transactions.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}

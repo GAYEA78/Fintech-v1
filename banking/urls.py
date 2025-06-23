@@ -21,3 +21,4 @@ urlpatterns = [
 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+handler403 = 'ledger.views.custom_permission_denied'

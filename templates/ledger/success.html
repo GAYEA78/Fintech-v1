@@ -2,12 +2,17 @@
 {% block title %}Payment Successful – Arona Fintech Bank{% endblock %}
 {% block content %}
 
-<div class="success-hero">
-  <div class="success-box">
-    <i class="fa fa-check-circle fa-4x mb-3" aria-hidden="true" style="color: var(--arona-accent);"></i>
+<div class="dashboard-container">
+  <div class="dashboard-box text-center mx-auto mb-4">
+    <i class="fa fa-check-circle fa-4x mb-3" 
+       aria-hidden="true" 
+       style="color: var(--arona-accent);">
+    </i>
     <h1>Payment Successful!</h1>
     <p class="lead">Your deposit has been credited to your account.</p>
-    <a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}">Back to Dashboard</a>
+    <a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}">
+      Back to Dashboard
+    </a>
   </div>
 </div>
 

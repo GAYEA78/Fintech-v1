@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}Manual Rebalance – Arona Fintech Bank{% endblock %}
+{% block content %}
+<style>
+  .full-height-center {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 15px 30px;
+    position: relative;
+  }
+  .form-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    background-color: #f0f8ff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .form-label {
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+  .form-control,
+  .form-select {
+    font-size: 1.1rem;
+    padding: 10px;
+  }
+  .btn-submit {
+    font-size: 1.2rem;
+    padding: 12px;
+    margin-top: 1.5rem;
+  }
+  .back-btn-top {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+  }
+</style>
+
+<div class="full-height-center">
+  <div class="dashboard-box w-100" style="max-width: 700px; position: relative;">
+    <div class="back-btn-top">
+      <a href="{% url 'dashboard' %}" class="btn btn-primary text-decoration-none">← Back to Dashboard</a>
+    </div>
+
+    <h2 class="text-center mb-4">Manual Rebalance</h2>
+
+    <form method="post" action="{% url 'apply_manual_rebalance' %}">
+      {% csrf_token %}
+      <div class="form-section-title">Asset Allocation Table</div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Asset</th>
+            <th>Current Allocation (%)</th>
+            <th>Target Allocation (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for target, current in paired_allocation %}
+          <tr>
+            <td>{{ target.asset }}</td>
+            <td>{{ current.actual_pct }}%</td>
+            <td>
+              <input
+                type="text"
+                name="target_{{ target.asset }}"
+                value="{{ target.target_pct }}"
+                pattern="\d+([.,]\d{1,2})?"
+                inputmode="decimal"
+                class="form-control"
+                required
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary w-100 btn-submit">Apply Manual Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

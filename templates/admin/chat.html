@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Admin Inbox{% endblock %}
+{% block content %}
+<div class="row">
+  <!-- Sidebar: List of users -->
+  <div class="col-md-4">
+    <h5>👥 Users</h5>
+    <ul class="list-group">
+      {% for user in all_users %}
+      <a href="{% url 'admin_chat' user.id %}" class="list-group-item {% if user.id == selected_user.id %}active{% endif %}">
+        {{ user.username }}
+      </a>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Chat area -->
+  <div class="col-md-8">
+    <h5>💬 Chat with {{ selected_user.username }}</h5>
+    <div class="border p-3 mb-3" style="height: 300px; overflow-y: scroll;">
+      {% for msg in messages %}
+        <div class="mb-2 {% if msg.sender == request.user %}text-end{% endif %}">
+          <strong>{{ msg.sender.username }}:</strong> {{ msg.content }}<br>
+          <small class="text-muted">{{ msg.timestamp|date:"Y-m-d H:i" }}</small>
+        </div>
+      {% empty %}
+        <p>No messages yet.</p>
+      {% endfor %}
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      <textarea name="content" class="form-control mb-2" placeholder="Type your message..." required></textarea>
+      <button class="btn btn-primary w-100">Send</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

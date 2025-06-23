@@ -23,9 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (first) first.classList.add('active');
   }
 
-  // Glow mode toggle
-  const toggle = document.getElementById('darkToggle');
-  toggle.addEventListener('click', () => {
-    document.documentElement.classList.toggle('glow');
-  });
+ const toggle = document.getElementById('darkToggle');
+ const container = document.querySelector('.dashboard-container');
+ toggle.addEventListener('click', () => {
+  container.classList.toggle('dark-mode');
+});
+
 });
