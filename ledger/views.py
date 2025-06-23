@@ -943,14 +943,42 @@ def manual_rebalance(request):
 
     for line in portfolio.lines.all():
         paired_allocation.append((
-            line,  # target
-            type('Obj', (), {'actual_pct': current_alloc.get(line.asset, 0)})  # current
+            line,  
+            type('Obj', (), {'actual_pct': current_alloc.get(line.asset, 0)})  
         ))
 
     return render(request, 'ledger/manual_rebalance.html', {
         'paired_allocation': paired_allocation
     })
 
+@require_POST
+@login_required
+def apply_manual_rebalance(request):
+    account = Account.objects.get(user=request.user)
+    profile = RiskProfile.objects.filter(user=request.user).last()
+
+    if not profile:
+        messages.error(request, "You must complete your risk profile first.")
+        return redirect('dashboard')
+
+    portfolio = ModelPortfolio.objects.filter(name__icontains=profile.investor_type).first()
+    if not portfolio:
+        messages.error(request, "No matching portfolio found.")
+        return redirect('dashboard')
+
+    for line in portfolio.lines.all():
+        key = f"target_{line.asset}"
+        value = request.POST.get(key)
+        try:
+            if value:
+                value = value.replace(',', '.')  
+                line.target_pct = round(Decimal(value), 2)
+                line.save()
+        except (ValueError, InvalidOperation):
+            messages.error(request, f"Invalid input for {line.asset}")
+
+    messages.success(request, "Manual changes applied to your target allocations.")
+    return redirect('dashboard')
 
 
 
