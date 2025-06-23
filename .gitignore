@@ -1,0 +1,16 @@
+
+venv/
+
+*.dll
+*.pyd
+*.so
+*.whl
+
+
+*.js.map
+
+
+__pycache__/
+*.pyc
+*.log
+db.sqlite3
