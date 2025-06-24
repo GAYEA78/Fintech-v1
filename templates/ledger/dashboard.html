@@ -5,7 +5,7 @@
 {% block content %}
 <div class="dashboard-container">
 
-  <!-- Navigation bar -->
+
   <div class="dashboard-box nav-mini mb-4 mx-auto">
     <div class="dashboard-nav-box">
       <a href="{% url 'home' %}" class="dashboard-btn">🏠 Home</a>
@@ -26,13 +26,13 @@
 
   <div style="display: flex; align-items: flex-start; gap: 2rem; flex-wrap: wrap;">
 
-    <!-- Welcome and Deposit section -->
+
     <div style="flex: 2 1 0; min-width: 300px;">
       <div class="dashboard-box mb-4">
         <h2>🏦 Welcome, {{ user.first_name }}</h2>
         <div class="dashboard-balance mb-4"><strong>Balance:</strong> ${{ account.balance }}</div>
 
-        <!-- Deposit form -->
+
         <div class="dashboard-actions">
           <form method="post" action="{% url 'create_checkout_session' %}">
             {% csrf_token %}
@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <!-- Transactions section -->
+
       <div class="dashboard-box transactions-box mb-4">
         <h3 class="text-center mb-3">Recent Transactions 🧾</h3>
         <div class="dashboard-table mb-4">
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <!-- Live stock prices -->
+
       <div class="dashboard-box p-3" style="font-size: 1rem;">
         <h4 class="text-center mb-3" style="font-size: 1.25rem;">📈 Live Stock Prices</h4>
         <ul class="list-group mb-3">
@@ -86,7 +86,7 @@
           {% endfor %}
         </ul>
 
-        <!-- Stock search -->
+
         <form method="get" action="{% url 'dashboard' %}">
           <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Search ticker (e.g., AAPL)" required>
@@ -106,7 +106,7 @@
       </div>
     </div>
 
-    <!-- Simulated trading -->
+
     <div style="flex: 1 1 0; min-width: 300px; max-width: 400px;">
       <div class="dashboard-box mb-4">
         <h2 style="font-size: 20px; font-weight: 100;">📊 Simulated Trading</h2>
@@ -117,7 +117,7 @@
         </form>
       </div>
 
-      <!-- Portfolio chart -->
+
       {% if holdings %}
       <div class="dashboard-box mb-4">
         <h3 class="text-center">📈 Your Portfolio</h3>
@@ -126,7 +126,7 @@
       {% endif %}
     </div>
 
-    <!-- Rebalance alert -->
+
     {% if rebalance_alert %}
     <div style="flex: 1 1 0; min-width: 250px;">
       <div class="dashboard-box alert alert-warning text-center p-4">
@@ -140,7 +140,7 @@
     </div>
     {% endif %}
 
-    <!-- Investor profile and analytics -->
+
     <div style="flex: 1 1 0; min-width: 250px;">
       {% if risk_profile %}
         {% if account.balance > 0 %}
@@ -149,7 +149,7 @@
           <p><strong>{{ risk_profile.investor_type }}</strong></p>
           <p class="mb-3">{{ recommendations.description }}</p>
 
-          <!-- Allocation -->
+
           <h5>Asset Allocation</h5>
           <ul class="list-unstyled mb-3">
             {% for klass, alloc in recommendations.allocation.items %}
@@ -157,7 +157,7 @@
             {% endfor %}
           </ul>
 
-          <!-- Products -->
+
           <h5>Suggested Products</h5>
           <ul class="list-group list-group-flush mb-3">
             {% for product in recommendations.products %}
@@ -170,7 +170,7 @@
           </form>
         </div>
 
-        <!-- Gains/Losses -->
+
         {% if gains %}
         <div class="dashboard-box mb-4">
           <h3 class="text-center">📉 Gains / Losses</h3>
@@ -196,7 +196,7 @@
         </div>
         {% endif %}
 
-        <!-- Price history chart -->
+
         <div class="dashboard-box mb-4">
           <h3 class="text-center">⛰️ Asset Prices Over Time</h3>
           <ul class="text-center list-unstyled mb-3 small">
@@ -224,10 +224,10 @@
   </div>
 </div>
 
-<!-- Chart.js scripts -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Portfolio Chart -->
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const portfolioCtx = document.getElementById('portfolioChart');
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- Price History Chart -->
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const ctx = document.getElementById('priceChart');
