@@ -6,7 +6,10 @@ Do not reuse or repurpose these credentials for any personal or production use.
 For production deployment, replace them with your own secure and environment-specific credentials.
 
 
-A modern full stack fintech web app that combines secure banking, smart investing, KYC onboarding, and a full ledger system. Designed to replicate the features of a digital bank and robo-advisor.
+
+
+
+##A modern full stack fintech web app that combines secure banking, smart investing, KYC onboarding, and a full ledger system. Designed to replicate the features of a digital bank and robo-advisor.
 
 Features Overview
 Secure login with 2FA (email-based OTP)
