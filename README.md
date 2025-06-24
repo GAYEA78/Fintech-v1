@@ -1,4 +1,10 @@
 # Arona Fintech – Secure Banking & Investment Simulation
+## ⚠️ Note on Credentials
+This project includes testing API keys and Gmail SMTP credentials specifically configured for the built-in 2FA authentication system. These credentials are intended strictly for testing and demonstration purposes only and were created solely for this project by ME.
+
+Do not reuse or repurpose these credentials for any personal or production use.
+For production deployment, replace them with your own secure and environment-specific credentials.
+
 
 A modern full stack fintech web app that combines secure banking, smart investing, KYC onboarding, and a full ledger system. Designed to replicate the features of a digital bank and robo-advisor.
 
