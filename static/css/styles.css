@@ -1,6 +1,6 @@
 /* static/css/styles.css */
 
-/*— VARIABLES ————————————————————————————————————————— */
+
 :root {
   --arona-primary:   #4A90E2;
   --arona-secondary: #50E3C2;
@@ -10,7 +10,7 @@
 }
 
 
-/*— BACKDROP / SHADOW UTILITIES —————————————————————————————————— */
+
 .glassy {
   background: rgba(255,255,255,0.2);
   backdrop-filter: blur(10px);
@@ -425,11 +425,11 @@ footer {
 
 
 .dashboard-box.nav-mini {
-  display: inline-block;      /* shrink to fit content */
-  padding: 1rem 2rem;         /* less padding top/bottom, left/right */
-  border-radius: 1.5rem;      /* keep the same rounded corners */
-  background-color: #eaf4fc;  /* same light-blue bg */
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15); /* match shadow-medium */
+  display: inline-block;      
+  padding: 1rem 2rem;         
+  border-radius: 1.5rem;      
+  background-color: #eaf4fc;  
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15); 
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 .dashboard-box.nav-mini:hover {
@@ -588,13 +588,13 @@ select:focus {
 
 .bank-logo-absolute {
   position: absolute;        
-  top: 1.5rem;                  /*vertical placement */
-  left: 82rem;                 /* horizontal placement */
+  top: 1.5rem;                  
+  left: 82rem;                 
 
-  height: 8rem;               /* Size*/
-  width: auto;                /* Maintain aspect ratio */
-  object-fit: contain;        /* Prevent distortion */
-  border-radius: 2.5rem;      /* rounded corners */
+  height: 8rem;               
+  width: auto;                
+  object-fit: contain;        
+  border-radius: 2.5rem;      
   z-index: 1000;              
   pointer-events: none;      
 }
