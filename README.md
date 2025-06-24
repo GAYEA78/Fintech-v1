@@ -27,35 +27,35 @@ Chat system between users and administrators
 
 ### 1. Traditional Banking Limitations
 - Problem: Outdated interfaces and disconnected financial data.
-- Solution: Responsive UI with modern dashboard and real-time stock insights.
+- My Solution: Responsive UI with modern dashboard and real-time stock insights.
 
 ### 2. Security & Compliance Gaps
 - Problem: Weak authentication and no identity verification.
-- Solution: Email-based 2FA, KYC document review, and admin role separation.
+- My Solution: Email-based 2FA, KYC document review, and admin role separation.
 
 ### 3. Lack of Financial Intelligence
 - Problem: No personalized investment options or risk analysis.
-- Solution: Investor profiling, auto-matched portfolios, and drift alerts.
+- My Solution: Investor profiling, auto-matched portfolios, and drift alerts.
 
 ### 4. Transaction Inaccuracies
 - Problem: Poor balance tracking and missing audit trails.
-- Solution: Double-entry ledger system with full transaction history.
+- My Solution: Double-entry ledger system with full transaction history.
 
 ### 5. Disconnected Customer Support
 - Problem: No internal messaging or conversation tracking.
-- Solution: Built-in chat between users and admins with history tracking.
+- My Solution: Built-in chat between users and admins with history tracking.
 
 ### 6. Payment Integration Challenges
 - Problem: Insecure or manual payment handling.
-- Solution: Stripe Checkout with proper redirection and confirmation views.
+- My Solution: Stripe Checkout with proper redirection and confirmation views.
 
 ### 7. Missing Financial Education Tools
 - Problem: Users can't learn investing through the app.
-- Solution: Simulated trading, asset visualization, and portfolio tracking.
+- My Solution: Simulated trading, asset visualization, and portfolio tracking.
 
 ### 8. Operational Inefficiencies for Admins
 - Problem: No centralized admin control.
-- Solution: Admin dashboard with account control, user messaging, and KYC tools.
+- My Solution: Admin dashboard with account control, user messaging, and KYC tools.
 
 ---
 
@@ -85,7 +85,7 @@ cd Fintech-v1
 ```bash
 python -m venv venv
 venv\Scripts\activate   # On Windows
-# source venv/bin/activate  # On macOS/Linux
+source venv/bin/activate  # On macOS/Linux
 ```
 
 ### 3. Install Dependencies
