@@ -1,60 +1,113 @@
-# Arona Fintech Bank
+# Arona Fintech – Secure Banking & Investment Simulation
 
-A modern, glassy-UI digital banking app built with Django. Features:
+A modern full stack fintech web app that combines secure banking, smart investing, KYC onboarding, and a full ledger system. Designed to replicate the features of a digital bank and robo-advisor.
 
-- **User Authentication** with Email-based Two-Factor Authentication (2FA)  
-- **Role-based Access** (Admin vs Customer)  
-- **Account Management**: deposit funds via Stripe, view balance & transactions  
-- **PDF Statements** (downloadable bank statements)  
-- **KYC/AML Workflow**: upload & admin approval of identity documents  
-- **Responsive, Glass-Blur UI** using CSS custom properties and modern effects  
-- **Automated Testing** for core flows (signup, login, deposit)
+Features Overview
+Secure login with 2FA (email-based OTP)
 
----
+User profiling with automatic portfolio recommendation
 
-##  Tech Stack
+Manual and automatic rebalancing tools
 
-- **Backend:** Python 3.10, Django 4.2  
-- **DB:** SQLite (dev), easily switchable to Postgres  
-- **Payments:** Stripe Checkout  
-- **Email (2FA):** Django console or SMTP (configurable via `.env`)  
-- **Frontend:** Bootstrap, CSS  
-- **KYC Storage:** Local `media/kyc/` (mock file uploads)
+Stripe-powered deposit system with confirmation flow
 
----
+Complete transaction history with downloadable PDF statements
 
-## ⚙ Prerequisites
+Simulated trading system with portfolio tracking
 
-- Python 3.10+ & pip  
-- Virtualenv (`python -m venv venv`)  
-- [Stripe API keys](https://dashboard.stripe.com/)  
-- (Optional) SMTP credentials for real email  
-- Git & GitHub account
+Real-time stock data from Yahoo Finance
+
+Role-based admin dashboard with account/user/KYC control
+
+Chat system between users and administrators
 
 ---
 
-## 🚀 Setup, Run & Deploy
+## What This Solves
 
-```powershell
-# 1. Clone & enter (once your GitHub repo exists)
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/banking_app.git
-cd banking_app
+### 1. Traditional Banking Limitations
+- Problem: Outdated interfaces and disconnected financial data.
+- Solution: Responsive UI with modern dashboard and real-time stock insights.
 
-# 2. Create venv & install
+### 2. Security & Compliance Gaps
+- Problem: Weak authentication and no identity verification.
+- Solution: Email-based 2FA, KYC document review, and admin role separation.
+
+### 3. Lack of Financial Intelligence
+- Problem: No personalized investment options or risk analysis.
+- Solution: Investor profiling, auto-matched portfolios, and drift alerts.
+
+### 4. Transaction Inaccuracies
+- Problem: Poor balance tracking and missing audit trails.
+- Solution: Double-entry ledger system with full transaction history.
+
+### 5. Disconnected Customer Support
+- Problem: No internal messaging or conversation tracking.
+- Solution: Built-in chat between users and admins with history tracking.
+
+### 6. Payment Integration Challenges
+- Problem: Insecure or manual payment handling.
+- Solution: Stripe Checkout with proper redirection and confirmation views.
+
+### 7. Missing Financial Education Tools
+- Problem: Users can't learn investing through the app.
+- Solution: Simulated trading, asset visualization, and portfolio tracking.
+
+### 8. Operational Inefficiencies for Admins
+- Problem: No centralized admin control.
+- Solution: Admin dashboard with account control, user messaging, and KYC tools.
+
+---
+
+## APIs and External Services Used
+
+| Purpose                          | Tool / API             | Description                                          |
+|----------------------------------|-------------------------|------------------------------------------------------|
+| Stock Prices                     | yfinance                | Real-time and historical data from Yahoo Finance     |
+| Payments                         | Stripe Checkout         | PCI-compliant card payments                          |
+| 2FA via Email                    | Django Email + SMTP     | Sends one-time login codes via email                 |
+| PDF Statements                   | ReportLab               | Generates PDF of user transaction history            |
+| Data Visualizations              | Chart.js                | Asset and price trend charts                         |
+
+---
+
+## How to Run Locally
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/Fintech-v1.git
+cd Fintech-v1
+```
+
+### 2. Set Up Virtual Environment
+
+```bash
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\activate   # On Windows
+# source venv/bin/activate  # On macOS/Linux
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-# 3. Configure env
-copy .env.example .env
-# Edit .env: add SECRET_KEY, STRIPE_* keys, EMAIL_* settings, etc.
+### 4. Apply Migrations
 
-# 4. Database & static
+```bash
 python manage.py migrate
-python manage.py collectstatic --noinput
+```
 
-# 5. Create superuser
+### 5. Create a Superuser (Admin Account)
+
+```bash
 python manage.py createsuperuser
+```
 
-# 6. Run development server
+### 6. Run the Server
+```bash
 python manage.py runserver
+```
+
