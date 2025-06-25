@@ -26,3 +26,12 @@ if os.environ.get('RUN_MAIN') != 'true':  # Prevents double-run on reload
         call_command('collectstatic', interactive=False, verbosity=0)
     except Exception as e:
         print("Startup error:", e)
+
+    User = get_user_model()
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='admin@example.com',
+            password='AdminPassword123'
+        )
+        print("Superuser 'admin' created.")
