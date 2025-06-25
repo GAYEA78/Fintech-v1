@@ -432,96 +432,95 @@ def trade(request):
     account = Account.objects.get(user=request.user)
     form = TradeForm(request.POST or None)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            trade_type = form.cleaned_data['trade_type']
-            ticker = form.cleaned_data['ticker'].upper()
-            qty = form.cleaned_data['quantity']
-            raw_price = fetch_nav(ticker)
+    if request.method == 'POST' and form.is_valid():
+        trade_type = form.cleaned_data['trade_type']
+        ticker = form.cleaned_data['ticker'].upper()
+        qty = form.cleaned_data['quantity']
+        raw_price = fetch_nav(ticker)
 
-            if raw_price is None:
-                messages.error(request, f"Could not fetch price for {ticker}")
-                return redirect('dashboard')
+        if raw_price is None:
+            trade_error = f"Could not fetch price for {ticker}"
+            return render_dashboard_with_error(request, form, trade_error)
 
-            price = Decimal(str(raw_price))
-            total = qty * price
+        price = Decimal(str(raw_price))
+        total = qty * price
 
-            if trade_type == 'BUY':
-                if account.balance < total:
-                    messages.error(request, "Insufficient balance.")
-                    return redirect('dashboard')
+        if trade_type == 'BUY':
+            if account.balance < total:
+                trade_error = "Insufficient balance to complete the trade."
+                return render_dashboard_with_error(request, form, trade_error)
+            holding = Holding.objects.filter(user=request.user, ticker=ticker).first()
+            if holding and holding.quantity > 0:
+                new_total_qty = holding.quantity + qty
+                holding.avg_price = (
+                    ((holding.avg_price * holding.quantity) + (price * qty)) / new_total_qty
+                )
+                holding.quantity = new_total_qty
+            else:
+                holding = Holding(
+                    user=request.user,
+                    ticker=ticker,
+                    quantity=qty,
+                    avg_price=price
+                )
+            holding.save()
+            account.balance -= total
+            account.save()
 
-                holding = Holding.objects.filter(user=request.user, ticker=ticker).first()
-                if holding and holding.quantity > 0:
-                    new_total_qty = holding.quantity + qty
-                    holding.avg_price = (
-                        ((holding.avg_price * holding.quantity) + (price * qty)) / new_total_qty
-                    )
-                    holding.quantity = new_total_qty
+            Transaction.objects.create(
+                account=account,
+                transaction_type=Transaction.DEBIT,
+                amount=total,
+                description=f"BUY: {qty} {ticker} at ${price}"
+            )
+
+        elif trade_type == 'SELL':
+            try:
+                holding = Holding.objects.get(user=request.user, ticker=ticker)
+                if holding.quantity < qty:
+                    trade_error = "Not enough shares to sell."
+                    return render_dashboard_with_error(request, form, trade_error)
+                holding.quantity -= qty
+                if holding.quantity == 0:
+                    holding.delete()
                 else:
-                    holding = Holding(
-                        user=request.user,
-                        ticker=ticker,
-                        quantity=qty,
-                        avg_price=price
-                    )
-                holding.save()
-                account.balance -= total
+                    holding.save()
+                account.balance += total
                 account.save()
 
                 Transaction.objects.create(
                     account=account,
-                    transaction_type=Transaction.DEBIT,
+                    transaction_type=Transaction.CREDIT,
                     amount=total,
-                    description=f"BUY: {qty} {ticker} at ${price}"
+                    description=f"SELL: {qty} {ticker} at ${price}"
                 )
+            except Holding.DoesNotExist:
+                trade_error = "No holdings found for this stock."
+                return render_dashboard_with_error(request, form, trade_error)
 
-            elif trade_type == 'SELL':
-                try:
-                    holding = Holding.objects.get(user=request.user, ticker=ticker)
-                    if holding.quantity < qty:
-                        messages.error(request, "Not enough shares to sell.")
-                        return redirect('dashboard')
-                    holding.quantity -= qty
-                    if holding.quantity == 0:
-                        holding.delete()
-                    else:
-                        holding.save()
-                    account.balance += total
-                    account.save()
+        Trade.objects.create(
+            user=request.user,
+            trade_type=trade_type,
+            ticker=ticker,
+            quantity=qty,
+            price=price
+        )
 
-                    Transaction.objects.create(
-                        account=account,
-                        transaction_type=Transaction.CREDIT,
-                        amount=total,
-                        description=f"SELL: {qty} {ticker} at ${price}"
-                    )
-                except Holding.DoesNotExist:
-                    messages.error(request, "No holdings found for this stock.")
-                    return redirect('dashboard')
+        messages.success(request, f"{trade_type} order executed for {qty} shares of {ticker} at ${price}")
+        return redirect('dashboard')
 
-            Trade.objects.create(
-                user=request.user,
-                trade_type=trade_type,
-                ticker=ticker,
-                quantity=qty,
-                price=price
-            )
-
-            messages.success(request, f"{trade_type} order executed for {qty} shares of {ticker} at ${price}")
-            return redirect('dashboard')
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field.capitalize()}: {error}")
+    elif request.method == 'POST':
+        trade_error = "There was an error with your trade form."
+        return render_dashboard_with_error(request, form, trade_error)
 
     return redirect('dashboard')
 
 
-
-
-
-
+def render_dashboard_with_error(request, form, trade_error):
+    response = dashboard(request)
+    response.context_data['trade_form'] = form
+    response.context_data['trade_error'] = trade_error
+    return response
 
 
 
