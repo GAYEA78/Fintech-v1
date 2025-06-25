@@ -777,7 +777,7 @@ def create_checkout_session(request):
         if dollars <= 0 or dollars > 100000:
             raise ValueError("Invalid amount")
     except (TypeError, ValueError):
-        messages.error(request, "Please enter a valid deposit amount (1 - 100,000).")
+        messages.error(request, "Deposit failed: maximum allowed is $100,000.")
         return redirect('dashboard')
 
     cents = int(dollars * 100)
