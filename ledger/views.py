@@ -149,10 +149,16 @@ def login_2fa(request):
         form = CustomAuthForm(request=request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
+
+            #  BYPASS 2FA FOR ADMIN USER
+            if user.username == "admin":
+                login(request, user)
+                return redirect('dashboard')
+
+            # Otherwise, send OTP
             otp = OtpCode.generate_for(user)
             print(f"[DEBUG] Generated OTP for {user.email}: {otp.code}")
 
-            # Send via Gmail SMTP
             send_mail(
                 'Your Arona Bank Login Code',
                 f'Your one-time login code is: {otp.code}',
@@ -166,6 +172,7 @@ def login_2fa(request):
     else:
         form = CustomAuthForm()
     return render(request, 'registration/login.html', { 'form': form })
+
 
 
 
