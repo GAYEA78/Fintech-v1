@@ -770,13 +770,14 @@ class StatementPDFView(View):
 def create_checkout_session(request):
     if request.method != 'POST':
         return redirect('dashboard')
-    amt = request.POST.get('amount')
-    try:
-        dollars = float(amt)
-        if dollars <= 0:
-            raise ValueError
-    except (TypeError, ValueError):
-        return redirect('dashboard')
+amt = request.POST.get('amount')
+try:
+    dollars = float(amt)
+    if dollars <= 0 or dollars > 100000:
+        raise ValueError("Invalid amount")
+except (TypeError, ValueError):
+    messages.error(request, "Please enter a valid deposit amount (1 - 100,000).")
+    return redirect('dashboard')
     cents = int(dollars * 100)
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],
