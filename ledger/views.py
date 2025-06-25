@@ -517,10 +517,147 @@ def trade(request):
 
 
 def render_dashboard_with_error(request, form, trade_error):
-    response = dashboard(request)
-    response.context_data['trade_form'] = form
-    response.context_data['trade_error'] = trade_error
-    return response
+    account, _ = Account.objects.get_or_create(user=request.user, defaults={'balance': Decimal('0.00')})
+    transactions = account.transactions.order_by('-timestamp')[:4]
+    risk_profile = RiskProfile.objects.filter(user=request.user).order_by('-created_at').first()
+    latest_doc = KycDocument.objects.filter(user=request.user).order_by('-uploaded_at').first()
+
+    search_result = None
+    if request.GET.get('search'):
+        user_ticker = request.GET['search'].upper()
+        try:
+            stock = yf.Ticker(user_ticker)
+            price = stock.history(period='1d').tail(1)['Close'].iloc[0]
+            search_result = {'symbol': user_ticker, 'price': round(price, 2)}
+        except Exception:
+            search_result = {'error': f"Could not find data for '{user_ticker}'."}
+
+    default_tickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA']
+    stock_data = []
+    for ticker in default_tickers:
+        try:
+            stock = yf.Ticker(ticker)
+            price = stock.history(period='1d').tail(1)['Close'].iloc[0]
+            stock_data.append({'symbol': ticker, 'price': round(price, 2)})
+        except Exception:
+            stock_data.append({'symbol': ticker, 'price': 'N/A'})
+
+    holdings = Holding.objects.filter(user=request.user)
+    labels = []
+    data = []
+    gains = []
+    asset_chart_data = []
+
+    for h in holdings:
+        nav = fetch_nav(h.ticker)
+        if nav:
+            current_value = h.quantity * Decimal(nav)
+            cost_basis = h.quantity * h.avg_price
+            gain = current_value - cost_basis
+            gains.append({'ticker': h.ticker, 'gain': round(gain, 2)})
+            labels.append(h.ticker)
+            data.append(round(float(current_value), 2))
+            asset_chart_data.append({
+                'ticker': h.ticker,
+                'quantity': float(h.quantity),
+                'nav': float(nav),
+                'value': float(current_value)
+            })
+        else:
+            labels.append(h.ticker)
+            data.append(0)
+            gains.append({'ticker': h.ticker, 'gain': Decimal('0.00')})
+            asset_chart_data.append({
+                'ticker': h.ticker,
+                'quantity': float(h.quantity),
+                'nav': 0,
+                'value': 0
+            })
+
+    price_history_data = {
+        "labels": [],
+        "datasets": []
+    }
+    ticker_prices = defaultdict(list)
+    all_dates = set()
+
+    for holding in holdings:
+        trades = Trade.objects.filter(user=request.user, ticker=holding.ticker).order_by('timestamp')
+        for trade in trades:
+            date_str = trade.timestamp.strftime('%Y-%m-%d')
+            all_dates.add(date_str)
+            ticker_prices[holding.ticker].append({
+                "date": date_str,
+                "price": float(trade.price)
+            })
+
+    sorted_dates = sorted(all_dates)
+    price_history_data["labels"] = sorted_dates
+
+    for ticker, entries in ticker_prices.items():
+        date_price_map = {e["date"]: e["price"] for e in entries}
+        dataset = {
+            "label": ticker,
+            "data": []
+        }
+        last_price = 0
+        for date in sorted_dates:
+            if date in date_price_map:
+                last_price = date_price_map[date]
+            dataset["data"].append(last_price)
+        price_history_data["datasets"].append(dataset)
+
+    rebalance_alert = None
+    if risk_profile and account.balance > 0:
+        portfolio = ModelPortfolio.objects.filter(name__icontains=risk_profile.investor_type).first()
+        if portfolio:
+            total_value = Decimal('0')
+            current_values = {}
+            for line in portfolio.lines.all():
+                nav = fetch_nav(line.asset)
+                if nav is None:
+                    continue
+                invested_amt = (line.target_pct / Decimal('100')) * account.balance
+                shares = invested_amt / Decimal(nav)
+                current_val = shares * Decimal(nav)
+                current_values[line.asset] = current_val
+                total_value += current_val
+            if total_value > 0:
+                for line in portfolio.lines.all():
+                    if line.asset in current_values:
+                        actual_val = current_values[line.asset]
+                        actual_pct = (actual_val / total_value) * Decimal('100')
+                        drift = abs(actual_pct - line.target_pct)
+                        if drift >= 5:
+                            rebalance_alert = {
+                                'portfolio': portfolio.name,
+                                'drift': round(drift, 2)
+                            }
+                            break
+
+    context = {
+        'account': account,
+        'transactions': transactions,
+        'risk_profile': risk_profile,
+        'recommendations': (
+            RISK_RECOMMENDATIONS.get(risk_profile.investor_type, {})
+            if risk_profile else {}
+        ),
+        'rebalance_alert': rebalance_alert,
+        'stock_data': stock_data,
+        'search_result': search_result,
+        'trade_form': form,
+        'trade_error': trade_error,
+        'holdings': holdings,
+        'labels': labels,
+        'data': data,
+        'gains': gains,
+        'price_history_data': price_history_data,
+        'asset_chart_data': asset_chart_data
+    }
+
+    return render(request, 'ledger/dashboard.html', context)
+
 
 
 
