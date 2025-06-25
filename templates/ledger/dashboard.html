@@ -31,7 +31,13 @@
       <div class="dashboard-box mb-4">
         <h2>🏦 Welcome, {{ user.first_name }}</h2>
         <div class="dashboard-balance mb-4"><strong>Balance:</strong> ${{ account.balance }}</div>
-
+        {% if messages %}
+  {% for message in messages %}
+    {% if message.tags == 'error' and 'deposit' in message.message|lower %}
+      <div class="alert alert-danger">{{ message }}</div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
 
         <div class="dashboard-actions">
           <form method="post" action="{% url 'create_checkout_session' %}">
