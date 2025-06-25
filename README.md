@@ -85,8 +85,8 @@ Chat system between users and administrators
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/Fintech-v1.git
-cd Fintech-v1
+git clone https://github.com/GAYEA78/Secure-Fund.git
+cd Secure-Fund
 ```
 
 ### 2. Set Up Virtual Environment
