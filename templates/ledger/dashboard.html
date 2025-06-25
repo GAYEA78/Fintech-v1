@@ -110,6 +110,9 @@
     <div style="flex: 1 1 0; min-width: 300px; max-width: 400px;">
       <div class="dashboard-box mb-4">
         <h2 style="font-size: 20px; font-weight: 100;">📊 Simulated Trading</h2>
+            {% if trade_error %}
+             <div class="alert alert-danger">{{ trade_error }}</div>
+            {% endif %}
         <form method="post" action="{% url 'trade' %}">
           {% csrf_token %}
           {{ trade_form.as_p }}
