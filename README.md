@@ -72,13 +72,15 @@ Chat system between users and administrators
 
 ## APIs and External Services Used
 
-| Purpose                          | Tool / API             | Description                                          |
-|----------------------------------|-------------------------|------------------------------------------------------|
-| Stock Prices                     | yfinance                | Real-time and historical data from Yahoo Finance     |
-| Payments                         | Stripe Checkout         | PCI-compliant card payments                          |
-| 2FA via Email                    | Django Email + SMTP     | Sends one-time login codes via email                 |
-| PDF Statements                   | ReportLab               | Generates PDF of user transaction history            |
-| Data Visualizations              | Chart.js                | Asset and price trend charts                         |
+| Purpose                         | Tool / API                   | Description                                                             |
+| ------------------------------- | ---------------------------- | ----------------------------------------------------------------------- |
+| Stock Prices                    | `yfinance`                   | Real-time and historical data from Yahoo Finance                        |
+| Payments                        | `Stripe Checkout`            | PCI-compliant card payments and redirection flow                        |
+| 2FA via Email                   | `Django Email + SMTP`        | Sends one-time passwords (OTP) for secure login via email               |
+| PDF Statements                  | `ReportLab`                  | Generates downloadable PDF transaction statements                       |
+| Data Visualizations             | `Chart.js`                   | Displays asset allocation and stock trend charts                        |
+| **KYC File Storage (Optional)** | **Amazon Web Services (S3)** | Optional storage for KYC document uploads — app runs fully without this |
+
 
 ---
 ## Tech Stack
@@ -93,13 +95,13 @@ Cloud & Storage: Amazon Web Services (AWS)
 
 To run this application securely and unlock all its features (secure login, payments, emails, stock data, file uploads), you need to configure environment variables in a .env file at the root of the project or you can run it on the deployed site directly here: https://secure-fund.onrender.com/.
 
-| Variable/APis       | Where to Get It                             | Helpful Links                                                                                     |
-| ------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `DJANGO_SECRET_KEY` | Use an online generator                     | [djecrety.ir](https://djecrety.ir/)                                                               |
-| Stripe Keys         | Create a Stripe account                     | [Stripe Dashboard → API Keys](https://dashboard.stripe.com/apikeys)                               |
-| Gmail App Password  | Enable 2FA on Gmail and create app password | [Google App Password Guide](https://support.google.com/accounts/answer/185833)                    |
-| Alpha Vantage API   | Free key for stock data                     | [Get API Key](https://www.alphavantage.co/support/#api-key)                                       |
-| AWS S3 Credentials  | Create IAM user and generate access keys    | [AWS IAM Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) |
+| Variable Group         | Where to Get It                                                                   | Helpful Links                                                                                     |
+| ---------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `DJANGO_SECRET_KEY`    | Generate securely                                                                 | [djecrety.ir](https://djecrety.ir/)                                                               |
+| Stripe Keys            | From your Stripe Dashboard                                                        | [Stripe API Keys](https://dashboard.stripe.com/apikeys)                                           |
+| Gmail App Password     | Required for sending OTPs via Gmail                                               | [Google App Password Guide](https://support.google.com/accounts/answer/185833)                    |
+| Alpha Vantage API Key  | For stock/financial data (used alongside Yahoo Finance)                           | [Get API Key](https://www.alphavantage.co/support/#api-key)                                       |
+| **AWS S3 Credentials** | **Only needed if you want to store KYC files on AWS** – app works fine without it | [AWS IAM Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) |
 
 
 ### 1. Clone the Repository
