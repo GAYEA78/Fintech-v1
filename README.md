@@ -10,6 +10,11 @@ Fully developped Application Website: https://secure-fund.onrender.com/
 Features Overview
 Secure login with 2FA (email-based OTP)
 
+ KYC (Know Your Customer) & Compliance
+- Secure document upload system
+- Admin-side approval/rejection workflow
+- Document versioning & status tracking
+
 User profiling with automatic portfolio recommendation
 
 Manual and automatic rebalancing tools
@@ -36,7 +41,7 @@ Chat system between users and administrators
 
 ### 2. Security & Compliance Gaps
 - Problem: Weak authentication and no identity verification.
-- My Solution: Email-based 2FA, KYC document review, and admin role separation.
+- My Solution: Email-based 2FA,  document review, and admin role separation.
 
 ### 3. Lack of Financial Intelligence
 - Problem: No personalized investment options or risk analysis.
@@ -60,7 +65,7 @@ Chat system between users and administrators
 
 ### 8. Operational Inefficiencies for Admins
 - Problem: No centralized admin control.
-- My Solution: Admin dashboard with account control, user messaging, and KYC tools.
+- My Solution: Admin dashboard with account control, user messaging, and  tools.
 
 ---
 
