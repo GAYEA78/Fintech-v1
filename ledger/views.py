@@ -158,7 +158,7 @@ def login_2fa(request):
 
             # Otherwise, send OTP
             otp = OtpCode.generate_for(user)
-            print(f"[DEBUG] Generated OTP for {user.email}: {otp.code}")
+            print(f"[In case email is invalid] Generated OTP for {user.email}: {otp.code}")
 
             send_mail(
                 'Your Arona Bank Login Code',
@@ -705,13 +705,6 @@ def inbox_chat(request, user_id):
 @login_required
 def kyc_upload(request):
     latest_doc = KycDocument.objects.filter(user=request.user).order_by('-uploaded_at').first()
-
-    
-    logger = logging.getLogger(__name__)
-    print("[DEBUG] File storage setting:", settings.DEFAULT_FILE_STORAGE)
-
-
-    
     if latest_doc:
         if latest_doc.status == KycDocument.PENDING:
             messages.info(request, "⏳ Your previous document is still pending review by a moderator.")
@@ -729,8 +722,6 @@ def kyc_upload(request):
             doc.user = request.user
             doc.status = KycDocument.PENDING
             doc.save()
-            print(f"[DEBUG] Storage backend: {type(doc.document.storage)}")
-            print(f"[DEBUG] File saved to: {doc.document.name}")
             messages.success(request, "📤 Document uploaded successfully. Awaiting review.")
             return redirect('kyc_status')
     else:
@@ -873,7 +864,7 @@ def admin_dashboard(request):
 #ADMIN STUFFS
 
 
-# ————— KYC Management —————
+# KYC Management 
 
 
 
@@ -979,7 +970,7 @@ def admin_chat(request, user_id):
 
 
 
-# ————— Account Management —————
+#Account Management
 @login_required
 def account_list(request):
     if not request.user.is_staff:
@@ -1073,7 +1064,7 @@ def transaction_list(request):
     })
 
 
-# ————— Rebalancing —————
+# Rebalancing 
 
 
 
