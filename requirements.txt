@@ -7,3 +7,6 @@ yfinance
 gunicorn
 whitenoise
 dj-database-url
+boto3
+django-storages
+
