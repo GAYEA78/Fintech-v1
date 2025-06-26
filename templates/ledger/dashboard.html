@@ -15,12 +15,13 @@
       <a href="#" id="darkToggle" class="dashboard-btn"><i class="fas fa-moon"></i> Dark Mode</a>
       <a href="{% url 'inbox' %}" class="dashboard-btn">📥 Chat with Admins!</a>
       <a href="{% url 'kyc_upload' %}" class="dashboard-btn">📁 Upload KYC Docs</a>
-
-<form action="{% url 'logout' %}" method="post" style="display: inline;">
-  {% csrf_token %}
-  <button type="submit" class="dashboard-btn">🔓 Logout</button>
+  {% if user.is_staff %}
+  <a href="{% url 'admin_dashboard' %}" class="dashboard-btn">🛠️ Staff Dashboard</a>
+  {% endif %}
+  <form action="{% url 'logout' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+      <button type="submit" class="dashboard-btn">🔓 Logout</button>
 </form>
-
     </div>
   </div>
 
