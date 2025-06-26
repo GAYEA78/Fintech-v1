@@ -28,7 +28,7 @@ Chat system between users and administrators
 
 ---
 
-## What This Solves
+## Why does this project matter?
 
 ### 1. Traditional Banking Limitations
 - Problem: Outdated interfaces and disconnected financial data.
