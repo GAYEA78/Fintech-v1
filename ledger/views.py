@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from collections import defaultdict
 from decimal import Decimal
 
@@ -705,6 +706,12 @@ def inbox_chat(request, user_id):
 def kyc_upload(request):
     latest_doc = KycDocument.objects.filter(user=request.user).order_by('-uploaded_at').first()
 
+    
+    logger = logging.getLogger(__name__)
+    print("[DEBUG] File storage setting:", settings.DEFAULT_FILE_STORAGE)
+
+
+    
     if latest_doc:
         if latest_doc.status == KycDocument.PENDING:
             messages.info(request, "⏳ Your previous document is still pending review by a moderator.")
