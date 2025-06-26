@@ -13,10 +13,14 @@
       <a href="{% url 'risk_profile' %}" class="dashboard-btn">👤 Investor Profile</a>
       <a href="{% url 'portfolio_list' %}" class="dashboard-btn">📊 Model Portfolios</a>
       <a href="#" id="darkToggle" class="dashboard-btn"><i class="fas fa-moon"></i> Dark Mode</a>
+  {% if not user.is_staff %}
       <a href="{% url 'inbox' %}" class="dashboard-btn">📥 Chat with Admins!</a>
+  {% endif %}      
+  {% if not user.is_staff %}
       <a href="{% url 'kyc_upload' %}" class="dashboard-btn">📁 Upload KYC Docs</a>
+  {% endif %}
   {% if user.is_staff %}
-  <a href="{% url 'admin_dashboard' %}" class="dashboard-btn">🛠️ Staff Dashboard</a>
+      <a href="{% url 'admin_dashboard' %}" class="dashboard-btn">🛠️ Staff Dashboard</a>
   {% endif %}
   <form action="{% url 'logout' %}" method="post" style="display: inline;">
     {% csrf_token %}
