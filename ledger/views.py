@@ -722,6 +722,8 @@ def kyc_upload(request):
             doc.user = request.user
             doc.status = KycDocument.PENDING
             doc.save()
+            print(f"[DEBUG] Storage backend: {type(doc.document.storage)}")
+            print(f"[DEBUG] File saved to: {doc.document.name}")
             messages.success(request, "📤 Document uploaded successfully. Awaiting review.")
             return redirect('kyc_status')
     else:
