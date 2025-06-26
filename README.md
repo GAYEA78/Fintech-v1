@@ -80,7 +80,14 @@ Chat system between users and administrators
 | Data Visualizations              | Chart.js                | Asset and price trend charts                         |
 
 ---
+## Tech Stack
+Backend: Python, Django
 
+Frontend: HTML, CSS, JavaScript, Bootstrap
+
+Database: SQLite (easily migratable to PostgreSQL)
+
+Cloud & Storage: Amazon Web Services (AWS)
 ## How to Run Locally
 
 ### 1. Clone the Repository
