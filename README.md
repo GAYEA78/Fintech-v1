@@ -105,6 +105,14 @@ python -m venv venv
 venv\Scripts\activate   # On Windows
 source venv/bin/activate  # On macOS/Linux
 ```
+### 3. .env File configuration
+Edit the .env file in your preferred editor.
+
+```bash
+vim .env  #Replace each placeholder value (e.g., your_stripe_secret_key) with your actual credentials.
+```
+Save and close the file.
+
 
 ### 3. Install Dependencies
 
