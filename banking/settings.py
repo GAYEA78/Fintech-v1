@@ -6,10 +6,6 @@ import dj_database_url
 dotenv.load_dotenv()
 load_dotenv()
 
-#DEBUG
-print("DEBUG ENV AWS_ACCESS_KEY_ID:", os.getenv("AWS_ACCESS_KEY_ID"))
-
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
@@ -136,16 +132,3 @@ AWS_S3_ADDRESSING_STYLE = "virtual"
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 AWS_S3_REGION_NAME = 'us-east-1'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-
-#DEBUG
-
-import boto3
-try:
-    s3 = boto3.client('s3')
-    s3.list_buckets()  # This will throw an error if credentials are bad
-    print("[DEBUG] ✅ Successfully connected to AWS S3")
-except Exception as e:
-    print("[DEBUG] ❌ Failed to connect to AWS S3:", e)
-
-
