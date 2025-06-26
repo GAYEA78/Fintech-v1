@@ -5,7 +5,7 @@ Fully developped Application Website: https://secure-fund.onrender.com/
 
 
 
-## A modern full stack fintech web app that combines secure banking, smart investing, KYC onboarding, and a full ledger system. Designed to replicate the features of a digital bank and robo-advisor.
+## A modern full stack fintech web app that combines secure banking, smart investing, Portfolio Management, KYC onboarding, and a full ledger system. Designed to make digital banking and investing smarter, faster, and more secure.
 
 Features Overview
 
