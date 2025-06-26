@@ -91,6 +91,17 @@ Database: SQLite (easily migratable to PostgreSQL)
 Cloud & Storage: Amazon Web Services (AWS)
 ## How to Run Locally
 
+To run this application securely and unlock all its features (secure login, payments, emails, stock data, file uploads), you need to configure environment variables in a .env file at the root of the project or you can run it on the deployed site directly here: https://secure-fund.onrender.com/.
+
+| Variable/APis       | Where to Get It                             | Helpful Links                                                                                     |
+| ------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `DJANGO_SECRET_KEY` | Use an online generator                     | [djecrety.ir](https://djecrety.ir/)                                                               |
+| Stripe Keys         | Create a Stripe account                     | [Stripe Dashboard → API Keys](https://dashboard.stripe.com/apikeys)                               |
+| Gmail App Password  | Enable 2FA on Gmail and create app password | [Google App Password Guide](https://support.google.com/accounts/answer/185833)                    |
+| Alpha Vantage API   | Free key for stock data                     | [Get API Key](https://www.alphavantage.co/support/#api-key)                                       |
+| AWS S3 Credentials  | Create IAM user and generate access keys    | [AWS IAM Guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) |
+
+
 ### 1. Clone the Repository
 
 ```bash
@@ -114,25 +125,25 @@ vim .env  #Replace each placeholder value (e.g., your_stripe_secret_key) with yo
 Save and close the file.
 
 
-### 3. Install Dependencies
+### 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Apply Migrations
+### 5. Apply Migrations
 
 ```bash
 python manage.py migrate
 ```
 
-### 5. Create a Superuser (Admin Account)
+### 6. Create a Superuser (Admin Account)
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 6. Run the Server
+### 7. Run the Server
 ```bash
 python manage.py runserver
 ```
