@@ -6,6 +6,10 @@ import dj_database_url
 dotenv.load_dotenv()
 load_dotenv()
 
+#DEBUG
+print("DEBUG ENV AWS_ACCESS_KEY_ID:", os.getenv("AWS_ACCESS_KEY_ID"))
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
