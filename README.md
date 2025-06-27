@@ -32,6 +32,8 @@ Role-based admin dashboard with account/user/KYC control
 
 Chat system between users and administrators
 
+Cloud Storage Via AWS
+
 ---
 
 ## Why does this project matter?
@@ -89,6 +91,7 @@ Backend: Python, Django
 Frontend: HTML, CSS, JavaScript, Bootstrap
 
 Database: SQLite (easily migratable to PostgreSQL)
+Database: Currenyly migratinb to PostgreSQL
 
 Cloud & Storage: Amazon Web Services (AWS)
 ## How to Run Locally
