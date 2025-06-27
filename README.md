@@ -36,7 +36,7 @@ Cloud Storage Via AWS
 
 ---
 
-## Why does this project matter?
+## Issues this project Tackles
 
 ### 1. Traditional Banking Limitations
 - Problem: Outdated interfaces and disconnected financial data.
