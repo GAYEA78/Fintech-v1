@@ -1,4 +1,4 @@
-# Arona Fintech – Secure Banking & Investment Simulation
+# Arona Fintech – Secure Banking & Investment
 
 
 Fully developped Application Website: https://secure-fund.onrender.com/ 
