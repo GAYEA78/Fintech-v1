@@ -86,7 +86,7 @@
       </div>
 
 
-      <div class="dashboard-box p-3" style="font-size: 1rem;">   
+      <div class="dashboard-box p-3 text-black-light" style="font-size: 1rem;">   
        <h4 class="text-center mb-3" style="font-size: 1.25rem;"><span class="dashboard-title-box">📈 Live Stock Prices</span></h4>
         <ul class="list-group mb-3">
           {% for stock in stock_data %}
@@ -119,7 +119,7 @@
 
 
     <div style="flex: 1 1 0; min-width: 300px; max-width: 400px;">
-      <div class="dashboard-box mb-4">
+      <div class="dashboard-box mb-4 text-black-light">
         <h2><span class="dashboard-title-box">📊 Simulated Trading</span></h2>
             {% if trade_error %}
              <div class="alert alert-danger">{{ trade_error }}</div>
@@ -224,7 +224,7 @@
         </div>
 
         {% else %}
-        <div class="dashboard-box text-center">
+        <div class="dashboard-box text-center text-black-light">
           <p>Please deposit some funds using the deposit box to see your asset allocation and recommendations.</p>
         </div>
         {% endif %}
