@@ -670,3 +670,32 @@ select.dark-select option {
   color: #000000 !important;
 }
 
+
+
+.dashboard-title-box {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--arona-primary);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  font-weight: 700;
+  color: var(--arona-dark);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-title-box:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+}
+
+.tab-content h2,
+.tab-content p,
+.tab-content li,
+.tab-content a {
+  color: #000 !important;   
+  text-shadow: none;        
+}
