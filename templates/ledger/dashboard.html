@@ -34,7 +34,7 @@
 
     <div style="flex: 2 1 0; min-width: 300px;">
       <div class="dashboard-box mb-4">
-        <h2>🏦 Welcome, {{ user.first_name }}</h2>
+        <h2><span class="dashboard-title-box">🏦 Welcome, {{ user.first_name }}</span></h2>
         <div class="dashboard-balance mb-4"><strong>Balance:</strong> ${{ account.balance }}</div>
         {% if messages %}
   {% for message in messages %}
@@ -60,7 +60,7 @@
 
 
       <div class="dashboard-box transactions-box mb-4">
-        <h3 class="text-center mb-3">Recent Transactions 🧾</h3>
+        <h3 class="text-center mb-3"><span class="dashboard-title-box">Recent Transactions 🧾</span></h3>
         <div class="dashboard-table mb-4">
           <table class="table table-borderless table-striped">
             <thead>
@@ -86,8 +86,8 @@
       </div>
 
 
-      <div class="dashboard-box p-3" style="font-size: 1rem;">
-        <h4 class="text-center mb-3" style="font-size: 1.25rem;">📈 Live Stock Prices</h4>
+      <div class="dashboard-box p-3" style="font-size: 1rem;">   
+       <h4 class="text-center mb-3" style="font-size: 1.25rem;"><span class="dashboard-title-box">📈 Live Stock Prices</span></h4>
         <ul class="list-group mb-3">
           {% for stock in stock_data %}
           <li class="list-group-item d-flex justify-content-between">
@@ -120,7 +120,7 @@
 
     <div style="flex: 1 1 0; min-width: 300px; max-width: 400px;">
       <div class="dashboard-box mb-4">
-        <h2 style="font-size: 20px; font-weight: 100;">📊 Simulated Trading</h2>
+        <h2><span class="dashboard-title-box">📊 Simulated Trading</span></h2>
             {% if trade_error %}
              <div class="alert alert-danger">{{ trade_error }}</div>
             {% endif %}
@@ -134,7 +134,7 @@
 
       {% if holdings %}
       <div class="dashboard-box mb-4">
-        <h3 class="text-center">📈 Your Portfolio</h3>
+        <h3 class="text-center"><span class="dashboard-title-box">📈 Your Portfolio</span></h3>
         <canvas id="portfolioChart" style="max-height: 300px;"></canvas>
       </div>
       {% endif %}
@@ -159,7 +159,7 @@
       {% if risk_profile %}
         {% if account.balance > 0 %}
         <div class="dashboard-box">
-          <h4 class="text-center mb-3" style="font-size: 1.25rem;">📊 <strong>Investor Profile</strong></h4>
+          <h4 class="text-center mb-3" style="font-size: 1.25rem;"><span class="dashboard-title-box">📊 <strong>Investor Profile</strong></span></h4>
           <p><strong>{{ risk_profile.investor_type }}</strong></p>
           <p class="mb-3">{{ recommendations.description }}</p>
 
@@ -187,7 +187,7 @@
 
         {% if gains %}
         <div class="dashboard-box mb-4">
-          <h3 class="text-center">📉 Gains / Losses</h3>
+          <h3 class="text-center"><span class="dashboard-title-box">📉 Gains / Losses</span></h3>
           <table class="table table-sm table-striped text-center">
             <thead><tr><th>Ticker</th><th>Gain / Loss</th></tr></thead>
             <tbody>
@@ -212,7 +212,7 @@
 
 
         <div class="dashboard-box mb-4">
-          <h3 class="text-center">⛰️ Asset Prices Over Time</h3>
+          <h3 class="text-center"><span class="dashboard-title-box">⛰️ Asset Prices Over Time</span></h3>
           <ul class="text-center list-unstyled mb-3 small">
             {% for asset in asset_chart_data %}
             <li class="text-muted"><strong>{{ asset.ticker }}</strong> — {{ asset.quantity|floatformat:2 }} shares @ ${{ asset.nav|floatformat:2 }} = ${{ asset.value|floatformat:2 }}</li>
