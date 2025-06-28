@@ -13,10 +13,14 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 # Hosting platform to try all the features
 RENDER_EXTERNAL_HOSTNAME = os.getenv('RENDER_EXTERNAL_HOSTNAME')
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
 if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME]
-else:
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# custom domain
+ALLOWED_HOSTS.append('securefund.aronagaye.me')
+
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
