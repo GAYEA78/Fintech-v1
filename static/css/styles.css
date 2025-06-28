@@ -453,19 +453,27 @@ footer {
   font-family: 'Playfair Display', serif;
   font-size: 4rem;
   font-weight: 700;
-  color: var(--arona-primary);
+  color: #ffffff; /* white text */
   text-align: center;
   margin: 1rem 0 0.25rem;
 }
+
 
 .dashboard-subheader {
   font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
   font-style: italic;
-  color: var(--arona-accent);
   text-align: center;
   margin-bottom: 2rem;
+
+  background: linear-gradient(90deg, #a18cd1, #b19cd9, #cfa9e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+
+  text-shadow: 0 0 10px rgba(177,156,217,0.6), 0 0 20px rgba(177,156,217,0.4);
 }
+
 
 .input-group input.form-control:focus {
   box-shadow: none;
@@ -699,3 +707,13 @@ select.dark-select option {
   color: #000 !important;   
   text-shadow: none;        
 }
+
+
+footer {
+  background-color: #b19cd9; /* light purple */
+  color: #fff;               /* white text */
+  padding: 1rem;
+  margin-top: auto;
+  text-align: center;
+}
+
