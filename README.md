@@ -1,7 +1,7 @@
 # Arona Fintech – Secure Banking & Investment
 
 
-Fully developped Application Website: https://secure-fund.onrender.com/ 
+Fully developped and deployed Application Website: https://securefund.aronagaye.me/
 
 
 
@@ -94,9 +94,15 @@ Database: SQLite (easily migratable to PostgreSQL)
 Database: Currenyly migratinb to PostgreSQL
 
 Cloud & Storage: Amazon Web Services (AWS)
+
+##Run the app fully deployed here
+If you do not want to run it locally you can run it directly on my personal website (App will need around 30 seconds to start running):
+```bash
+https://securefund.aronagaye.me/
+```
 ## How to Run Locally
 
-To run this application securely and unlock all its features (secure login, payments, emails, stock data, file uploads), you need to configure environment variables in a .env file at the root of the project or you can run it on the deployed site directly here: https://secure-fund.onrender.com/.
+To run this application locally you need to configure environment variables in the .env file at the root of the project 
 
 | Variable Group         | Where to Get It                                                                   | Helpful Links                                                                                     |
 | ---------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
