@@ -34,6 +34,13 @@ class SignUpForm(UserCreationForm):
             'placeholder': 'Enter your email'
         })
     )
+    enable_2fa = forms.BooleanField(
+        required=False,
+        label="Enable 2FA",
+        widget=forms.CheckboxInput(attrs={
+            'class': 'form-check-input'
+        })
+    )
 
     class Meta:
         model = User

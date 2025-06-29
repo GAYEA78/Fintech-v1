@@ -134,9 +134,30 @@ def signup(request):
             user = form.save()
             group, _ = Group.objects.get_or_create(name='customer')
             user.groups.add(group)
-            Account.objects.create(user=user)
-            login(request, user)
-            return redirect('dashboard')
+
+            # Create account and save 2FA preference
+            account = Account.objects.create(
+                user=user,
+                balance=Decimal('0.00')
+            )
+            account.two_factor_enabled = form.cleaned_data.get('enable_2fa', False)
+            account.save()
+
+            if form.cleaned_data.get('enable_2fa'): 
+                otp = OtpCode.generate_for(user)
+                print(f"[Signup OTP for {user.email}] Code: {otp.code}")
+                send_mail(
+                    'Your Arona Bank Signup Code',
+                    f'Your one-time signup code is: {otp.code}',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    fail_silently=False,
+                )
+                request.session['pre_2fa_user'] = user.id
+                return redirect('otp_verify')  
+            else:
+                login(request, user)
+                return redirect('dashboard')
     else:
         form = SignUpForm()
     return render(request, 'ledger/signup.html', {'form': form})
@@ -155,7 +176,11 @@ def login_2fa(request):
             if user.username == "admin":
                 login(request, user)
                 return redirect('dashboard')
-
+            account = Account.objects.get(user=user)
+            if not account.two_factor_enabled:
+                login(request, user)
+                return redirect('dashboard')
+             
             # Otherwise, send OTP
             otp = OtpCode.generate_for(user)
             print(f"[In case email is invalid] Generated OTP for {user.email}: {otp.code}")

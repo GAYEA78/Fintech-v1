@@ -35,9 +35,11 @@ class Account(models.Model):
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     auto_rebalance_enabled = models.BooleanField(default=False)
+    two_factor_enabled = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user.username}'s Account"
+
 
 class Transaction(models.Model):
     CREDIT = 'CR'
