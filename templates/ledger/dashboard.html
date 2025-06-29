@@ -50,9 +50,9 @@
             <div class="input-group">
               <span class="input-group-text">$</span>
               <input type="number" name="amount" class="form-control" placeholder="Amount" min="1" step="0.01" required>
-              <button class="btn btn-primary input-group-text" style="background-color: #0d6efd; color: white; border: 1px solid #0d6efd;" type="submit">
-                Deposit
-              </button>
+               <button class="btn btn-primary input-group-text" type="submit">
+                    Deposit
+                </button>
             </div>
           </form>
         </div>
@@ -120,7 +120,7 @@
 
     <div style="flex: 1 1 0; min-width: 300px; max-width: 400px;">
       <div class="dashboard-box mb-4 text-black-light">
-        <h2><span class="dashboard-title-box">📊 Simulated Trading</span></h2>
+        <h2 style="font-size: 1.5rem;"><span class="dashboard-title-box">📊 Simulated Trading</span></h2>
             {% if trade_error %}
              <div class="alert alert-danger">{{ trade_error }}</div>
             {% endif %}

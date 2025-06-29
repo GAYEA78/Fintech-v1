@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}Inbox{% endblock %}
 {% block content %}
-<div class="dashboard-container">
-<div class="dashboard-box nav-mini mb-4 mx-auto">
-  <div class="dashboard-nav-box">
-    <a href="{% url 'dashboard' %}" class="dashboard-btn">⬅ Back to Dashboard</a>
+<div class="dashboard-container text-black-light">
+  <div class="dashboard-box nav-mini mb-4 mx-auto">
+    <div class="dashboard-nav-box">
+      <a href="{% url 'dashboard' %}" class="dashboard-btn">⬅ Back to Dashboard</a>
+    </div>
   </div>
-</div>
   <div class="dashboard-box mb-4">
     <h2>📩 Message Support</h2>
     <form method="post">

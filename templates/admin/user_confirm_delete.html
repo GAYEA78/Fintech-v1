@@ -2,12 +2,14 @@
 {% block title %}Delete User – Admin{% endblock %}
 {% block content %}
 <div class="dashboard-container">
-  <h2>Confirm Delete</h2>
-  <p>Are you sure you want to delete user <strong>{{ user.username }}</strong>?</p>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a href="{% url 'user_list' %}" class="btn btn-secondary">Cancel</a>
-  </form>
+  <div class="dashboard-box mb-4 text-black">
+    <h2>Confirm Delete</h2>
+    <p>Are you sure you want to delete user <strong>{{ user.username }}</strong>?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Delete</button>
+      <a href="{% url 'user_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
 </div>
 {% endblock %}
