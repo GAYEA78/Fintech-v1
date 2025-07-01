@@ -1,38 +1,40 @@
 {% extends 'base.html' %}
-{% block title %}Manage KYC – Admin{% endblock %}
+{% block title %}Review KYC – Admin{% endblock %}
 {% block content %}
-<div class="dashboard-nav-box mb-4">
-  <a href="{% url 'admin_dashboard' %}" class="dashboard-btn">Back to Overview</a>
-</div>
+
 <div class="dashboard-container">
-  <div class="dashboard-box mb-4">
-    <h2 class="text-center mb-4">KYC Documents</h2>
-    <div class="dashboard-table">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Uploaded</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for doc in docs %}
-          <tr>
-            <td>{{ doc.user.username }}</td>
-            <td>{{ doc.uploaded_at|date:"Y-m-d H:i" }}</td>
-            <td>{{ doc.get_status_display }}</td>
-            <td>
-              <a class="btn btn-sm btn-primary" href="{% url 'kyc_edit' doc.pk %}">Edit</a>
-            </td>
-          </tr>
-          {% empty %}
-          <tr><td colspan="4">No documents.</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+
+  <div class="dashboard-nav-box mb-4">
+    <a href="{% url 'kyc_list' %}" class="dashboard-btn">← Back to KYC List</a>
   </div>
+
+  <div class="dashboard-box mb-4">
+    <h1 class="dashboard-title-box mb-4" style="font-size: 2.5rem;">
+      Review KYC for {{ doc.user.username }}
+    </h1>
+
+    <div class="mb-4 text-center">
+      {% if doc.document %}
+        <a href="{{ doc.document.url }}" target="_blank" class="dashboard-btn">Download Document</a>
+      {% else %}
+        <p class="text-danger">No document uploaded.</p>
+      {% endif %}
+    </div>
+
+    <form method="post" class="text-center">
+      {% csrf_token %}
+      <div class="mb-3 w-50 mx-auto">
+        <label for="id_status" class="form-label fw-bold text-black">Status:</label>
+        {{ form.status }}
+      </div>
+
+      <div class="dashboard-nav-box justify-content-center mt-4">
+        <button type="submit" class="dashboard-btn">Save</button>
+        <a href="{% url 'kyc_list' %}" class="dashboard-btn ms-2">Cancel</a>
+      </div>
+    </form>
+  </div>
+
 </div>
+
 {% endblock %}
